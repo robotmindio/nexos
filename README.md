@@ -48,6 +48,8 @@ qemu-system-x86_64 -enable-kvm -smp 2 -m 2048 -nic none -cdrom result/iso/*.iso 
 
 Run `hostname` and `cat /etc/nexos-release` at the guest console to verify the configured hostname. The default is `nexos`. To leave QEMU, press `Ctrl+A` followed by `X`.
 
+The [ISO smoke test](evidence/iso-smoke.md) records both builds, their SHA-256 digests and the values observed in the guests.
+
 ## Verify this package
 
 From the repository root:
