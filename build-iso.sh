@@ -1,3 +1,5 @@
-#!/bin/bash
+#!/usr/bin/env bash
+set -euo pipefail
 
-sudo nix-build '<nixpkgs/nixos>' -A config.system.build.isoImage -I nixos-config=./nexos.nix
+cd -- "$(dirname -- "${BASH_SOURCE[0]}")"
+exec nix --extra-experimental-features 'nix-command flakes' build --no-update-lock-file .#iso

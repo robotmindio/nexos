@@ -8,7 +8,7 @@ The reference direction is upstream Linux with a portable user-space runtime. Ni
 
 ## What is in this repository
 
-This is an engineering specification and execution program, **not an implemented OS**. Included executable code checks the specification itself: schemas, examples, dependency graph, requirement coverage, evidence-record shape and documentation references. It does not implement a `nexos` runtime or claim that a VM, model, provider or security boundary has been tested.
+This repository contains the engineering specification, execution program and a minimal NixOS live image for VM development. The specification validator checks schemas, examples, dependencies, requirement coverage, evidence records and documentation references. The NexOS runtime is still pending.
 
 | Area | Start here |
 | --- | --- |
@@ -31,6 +31,23 @@ Create a managed workspace, run a real typed operation under bounded authority, 
 
 This delivers a concrete product while preserving the wider vision. Generated views, demonstration learning, reference-image lifecycle, federation and accelerated hardware extend independently qualified profiles. They are not all prerequisites for a local-runtime release.
 
+## Build and boot the live ISO
+
+On an `x86_64` Linux host with Nix installed, edit [nexos.nix](nexos.nix) and run the build script. [flake.lock](flake.lock) pins the exact Nixpkgs revision.
+
+```bash
+./build-iso.sh
+sha256sum result/iso/*.iso
+```
+
+Boot the resulting ISO in a VM with QEMU and access to `/dev/kvm`.
+
+```bash
+qemu-system-x86_64 -enable-kvm -smp 2 -m 2048 -nic none -cdrom result/iso/*.iso -nographic
+```
+
+Run `hostname` and `cat /etc/nexos-release` at the guest console to verify the configured hostname. The default is `nexos`. To leave QEMU, press `Ctrl+A` followed by `X`.
+
 ## Verify this package
 
 From the repository root:
@@ -47,8 +64,8 @@ The checked-in report records the inputs checked and tool versions. Re-run it af
 
 Use [the bounded M1 mandate](program/START-HERE.md), then [AGENTS.md](AGENTS.md). P00 resolves the actual target pins and the first integration contract. P01 immediately exercises a real operation rather than delivering empty services. Continue through the assigned milestone without stopping at each commit; preserve exact checkpoints when a session must end.
 
-The first qualification target is a CPU-only x86_64 Linux/KVM/QEMU environment with a NixOS guest and explicitly managed storage. P00 records actual versions, image hashes, host features and limits. No fictitious release pin, hardware-support promise or boot evidence is supplied here.
+The first qualification target is a CPU-only x86_64 Linux/KVM/QEMU environment with a NixOS guest and explicitly managed storage. The live ISO provides the guest for initial development. P00 also covers the runtime toolchain, storage and integration contracts.
 
 ## Project status and licensing
 
-Specification version `0.1.0`, reviewed 2026-11-24. Architecture decisions are proposed implementation defaults with measured revisit gates. The target repository name is `robotmindio/nexos`; this archive has not created or published it. Licensing and public distribution remain owner-selected decisions. No license grant or release approval is invented by this package, and those decisions do not block ordinary local engineering.
+Specification version `0.1.0`, reviewed 2026-11-24. Architecture decisions are proposed implementation defaults with measured revisit gates. The source repository is public at `robotmindio/nexos`. Licensing and distribution of built images remain owner-selected decisions.

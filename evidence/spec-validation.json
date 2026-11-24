@@ -2,7 +2,7 @@
   "schema_version": "0.1.0",
   "validation_kind": "specification",
   "qualifies_runtime": false,
-  "recorded_at": "2026-11-24T09:12:05.395978Z",
+  "recorded_at": "2026-11-24T14:42:15.445330Z",
   "result": "passed",
   "checks": [
     {
@@ -24,12 +24,12 @@
     },
     {
       "name": "local_markdown_links",
-      "count": 196
+      "count": 198
     }
   ],
   "problems": [],
   "toolchain": {
-    "python": "3.12.14",
+    "python": "3.12.3",
     "jsonschema": "4.26.0",
     "referencing": "0.37.0"
   },
@@ -44,7 +44,7 @@
     },
     {
       "path": "README.md",
-      "sha256": "0cd763f3440177fb23c94fb4e72d819a27e7a6af75e10c8e4cd3f8f7071c1da3"
+      "sha256": "4a6f04fad609d280014f4bb619621ee27b7106c5601c7c82bb70802e611f35d2"
     },
     {
       "path": "audits/REVIEW-2026-11-24.es.md",
