@@ -1,0 +1,149 @@
+{
+  "schema_version": "0.1.0",
+  "revision": 0,
+  "packages": {
+    "P00": {
+      "status": "pending",
+      "lease": null,
+      "checkpoint": null,
+      "evidence": [],
+      "blockers": []
+    },
+    "P01": {
+      "status": "pending",
+      "lease": null,
+      "checkpoint": null,
+      "evidence": [],
+      "blockers": []
+    },
+    "P02": {
+      "status": "pending",
+      "lease": null,
+      "checkpoint": null,
+      "evidence": [],
+      "blockers": []
+    },
+    "P03": {
+      "status": "pending",
+      "lease": null,
+      "checkpoint": null,
+      "evidence": [],
+      "blockers": []
+    },
+    "P04": {
+      "status": "pending",
+      "lease": null,
+      "checkpoint": null,
+      "evidence": [],
+      "blockers": []
+    },
+    "P05": {
+      "status": "pending",
+      "lease": null,
+      "checkpoint": null,
+      "evidence": [],
+      "blockers": []
+    },
+    "P06": {
+      "status": "pending",
+      "lease": null,
+      "checkpoint": null,
+      "evidence": [],
+      "blockers": []
+    },
+    "P07": {
+      "status": "pending",
+      "lease": null,
+      "checkpoint": null,
+      "evidence": [],
+      "blockers": []
+    },
+    "P08": {
+      "status": "pending",
+      "lease": null,
+      "checkpoint": null,
+      "evidence": [],
+      "blockers": []
+    },
+    "P09": {
+      "status": "pending",
+      "lease": null,
+      "checkpoint": null,
+      "evidence": [],
+      "blockers": []
+    },
+    "P10": {
+      "status": "pending",
+      "lease": null,
+      "checkpoint": null,
+      "evidence": [],
+      "blockers": []
+    },
+    "P11": {
+      "status": "pending",
+      "lease": null,
+      "checkpoint": null,
+      "evidence": [],
+      "blockers": []
+    },
+    "P12": {
+      "status": "pending",
+      "lease": null,
+      "checkpoint": null,
+      "evidence": [],
+      "blockers": []
+    },
+    "P13": {
+      "status": "pending",
+      "lease": null,
+      "checkpoint": null,
+      "evidence": [],
+      "blockers": []
+    },
+    "P14": {
+      "status": "pending",
+      "lease": null,
+      "checkpoint": null,
+      "evidence": [],
+      "blockers": []
+    }
+  },
+  "profiles": {
+    "local-runtime": {
+      "status": "pending",
+      "evidence": [],
+      "blockers": []
+    },
+    "adaptive-ai": {
+      "status": "pending",
+      "evidence": [],
+      "blockers": []
+    },
+    "ai-workspace": {
+      "status": "pending",
+      "evidence": [],
+      "blockers": []
+    },
+    "reference-distribution": {
+      "status": "pending",
+      "evidence": [],
+      "blockers": []
+    },
+    "federated": {
+      "status": "pending",
+      "evidence": [],
+      "blockers": []
+    },
+    "accelerated-ai": {
+      "status": "pending",
+      "evidence": [],
+      "blockers": []
+    },
+    "robotmind-adapters": {
+      "status": "pending",
+      "evidence": [],
+      "blockers": []
+    }
+  },
+  "qualification": "not_started"
+}

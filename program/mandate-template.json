@@ -1,0 +1,39 @@
+{
+  "schema_version": "0.1.0",
+  "kind": "engineering_mandate_template",
+  "template": true,
+  "active": false,
+  "mandate_id": null,
+  "owner": null,
+  "scope": {
+    "package_ids": [],
+    "milestone_ids": [],
+    "release_profile_ids": []
+  },
+  "repository_url": null,
+  "base_revision": null,
+  "target_environment_profile": null,
+  "allowed_roots": [],
+  "inherited_authorization_refs": [],
+  "authorized_actions": [],
+  "resource_limits": {
+    "deadline_utc": null,
+    "wall_clock_seconds": null,
+    "token_limit": null,
+    "monetary_limit": {
+      "currency": null,
+      "minor_unit_exponent": null,
+      "amount_minor": null
+    }
+  },
+  "stop_conditions": [
+    "assigned_scope_qualified",
+    "user_interrupt",
+    "resource_limit",
+    "mandate_expired",
+    "all_authorized_paths_blocked"
+  ],
+  "notes": [
+    "Inactive template only. Null means unresolved, never unlimited permission or zero-cost execution. Fill from existing user authorization; do not ask again for authority already granted."
+  ]
+}

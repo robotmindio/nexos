@@ -1,0 +1,81 @@
+{
+  "schema_version": "0.1.0",
+  "observed_at": "2026-11-24",
+  "repository": "robotmindio/robotmind",
+  "commit": "d5f2e46d0cb0c73b2c3533415179bbcb887bf33a",
+  "scope": "Targeted integration reconnaissance, not a monorepo audit or runtime qualification",
+  "records": [
+    {
+      "path": "fiber-core/README.md",
+      "blob_sha": "cf46923b61ee18bbf872ffef18d1e7be9e8b2c83",
+      "url": "https://github.com/robotmindio/robotmind/blob/d5f2e46d0cb0c73b2c3533415179bbcb887bf33a/fiber-core/README.md",
+      "inspection": "documentation_read_not_runtime_verified"
+    },
+    {
+      "path": "fiber-core/docs/execution-lifecycle-state.md",
+      "blob_sha": "831c154ab6d3c47866c6f2d6391fc5e145930ea3",
+      "url": "https://github.com/robotmindio/robotmind/blob/d5f2e46d0cb0c73b2c3533415179bbcb887bf33a/fiber-core/docs/execution-lifecycle-state.md",
+      "inspection": "documentation_read_not_runtime_verified"
+    },
+    {
+      "path": "fiber-core/src/fiber_core/receipts.py",
+      "blob_sha": "1762dfc3dddfa093270d541c2306d5168a44603e",
+      "url": "https://github.com/robotmindio/robotmind/blob/d5f2e46d0cb0c73b2c3533415179bbcb887bf33a/fiber-core/src/fiber_core/receipts.py",
+      "inspection": "source_read_not_executed"
+    },
+    {
+      "path": "knowledge/README.md",
+      "blob_sha": "ee08981ffdc8ec202af326b61e2a6e596974c4cf",
+      "url": "https://github.com/robotmindio/robotmind/blob/d5f2e46d0cb0c73b2c3533415179bbcb887bf33a/knowledge/README.md",
+      "inspection": "documentation_read_not_runtime_verified"
+    },
+    {
+      "path": "bifrost/CLAUDE.md",
+      "blob_sha": "831ec60a0b52de81657184737c7c0dcd8a47f4a4",
+      "url": "https://github.com/robotmindio/robotmind/blob/d5f2e46d0cb0c73b2c3533415179bbcb887bf33a/bifrost/CLAUDE.md",
+      "inspection": "documentation_read_not_runtime_verified"
+    },
+    {
+      "path": "packages/bifrost-client/README.md",
+      "blob_sha": "cbd13e0326a35d9e5c12ba00af8092a3573cd2e2",
+      "url": "https://github.com/robotmindio/robotmind/blob/d5f2e46d0cb0c73b2c3533415179bbcb887bf33a/packages/bifrost-client/README.md",
+      "inspection": "documentation_read_not_runtime_verified"
+    },
+    {
+      "path": "packages/workspace-provisioner/README.md",
+      "blob_sha": "c0c50e87abd57015bfbcce6cae15c96b279c77b9",
+      "url": "https://github.com/robotmindio/robotmind/blob/d5f2e46d0cb0c73b2c3533415179bbcb887bf33a/packages/workspace-provisioner/README.md",
+      "inspection": "documentation_read_not_runtime_verified"
+    },
+    {
+      "path": "packages/workspace-provisioner/operations.py",
+      "blob_sha": "cb3d9c4e1af85793ef6e67f744413769934c6c42",
+      "url": "https://github.com/robotmindio/robotmind/blob/d5f2e46d0cb0c73b2c3533415179bbcb887bf33a/packages/workspace-provisioner/operations.py",
+      "inspection": "source_read_not_executed"
+    },
+    {
+      "path": "packages/robotmind-auth/README.md",
+      "blob_sha": "f1ca1253bfdb770b2bc78bf23ce51bb2504e2b39",
+      "url": "https://github.com/robotmindio/robotmind/blob/d5f2e46d0cb0c73b2c3533415179bbcb887bf33a/packages/robotmind-auth/README.md",
+      "inspection": "documentation_read_not_runtime_verified"
+    },
+    {
+      "path": "agent-session-relay/README.md",
+      "blob_sha": "14c8e6188099efeb7bd1a25ed860d493d85deeba",
+      "url": "https://github.com/robotmindio/robotmind/blob/d5f2e46d0cb0c73b2c3533415179bbcb887bf33a/agent-session-relay/README.md",
+      "inspection": "documentation_read_not_runtime_verified"
+    },
+    {
+      "path": "pc/README.md",
+      "blob_sha": "e37b9a12ee718907b74df2ca7b20c93194377ede",
+      "url": "https://github.com/robotmindio/robotmind/blob/d5f2e46d0cb0c73b2c3533415179bbcb887bf33a/pc/README.md",
+      "inspection": "documentation_read_not_runtime_verified"
+    },
+    {
+      "path": "cikut/README.md",
+      "blob_sha": "d04b102fae175225a68cdbd9d4b515828a1fa451",
+      "url": "https://github.com/robotmindio/robotmind/blob/d5f2e46d0cb0c73b2c3533415179bbcb887bf33a/cikut/README.md",
+      "inspection": "documentation_read_not_runtime_verified"
+    }
+  ]
+}

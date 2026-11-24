@@ -1,0 +1,49 @@
+{
+  "schema_version": "0.1.0",
+  "kind": "engineering_checkpoint_template",
+  "template": true,
+  "active": false,
+  "checkpoint_id": null,
+  "mandate_ref": null,
+  "recorded_at": null,
+  "scope": {
+    "package_ids": [],
+    "milestone_ids": [],
+    "release_profile_ids": []
+  },
+  "repository": {
+    "repository_url": null,
+    "worktree": null,
+    "branch": null,
+    "base_commit": null,
+    "head_commit": null,
+    "dirty": null,
+    "uncommitted_patch": {
+      "path": null,
+      "sha256": null
+    }
+  },
+  "coordination": {
+    "mode": null,
+    "assignment_ref": null,
+    "claim_id": null,
+    "fencing_token": null,
+    "lease_expires_at": null
+  },
+  "environment_tuple_ref": null,
+  "work_status": null,
+  "commands": [],
+  "artifacts": [],
+  "acceptance_results": [],
+  "decision_refs": [],
+  "blockers": [],
+  "next_action": {
+    "description": null,
+    "argv": [],
+    "cwd": null,
+    "expected_result": null
+  },
+  "notes": [
+    "Inactive template only. Replace unresolved fields with observed state in a separately validated checkpoint record. Never use this file as an active checkpoint, claim, renewed authority or success evidence."
+  ]
+}

@@ -1,0 +1,2299 @@
+{
+  "notice": "Synthetic schema fixtures, not authority grants, cryptographic vectors or runtime evidence. Each case is independent unless explicitly linked by a semantic test.",
+  "cases": [
+    {
+      "id": "capability-valid",
+      "definition": "capability",
+      "expected": "valid",
+      "instance": {
+        "schema_version": "0.1.0",
+        "kind": "capability",
+        "id": "urn:nexos:capability:write-note",
+        "version": "0.1.0",
+        "provider_id": "urn:nexos:provider:managed-files",
+        "provider_build_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "title": "Write a managed note",
+        "input_schema": {
+          "type": "object",
+          "properties": {
+            "resource_id": {
+              "type": "string",
+              "pattern": "^urn:nexos:resource:[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+            },
+            "text": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 4096
+            }
+          },
+          "required": [
+            "resource_id",
+            "text"
+          ],
+          "additionalProperties": false
+        },
+        "output_schema": {
+          "type": "object",
+          "properties": {
+            "artifact": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "pattern": "^urn:nexos:artifact:[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+                },
+                "digest": {
+                  "type": "string",
+                  "pattern": "^sha256:[0-9a-f]{64}$"
+                },
+                "media_type": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 128
+                }
+              },
+              "required": [
+                "id",
+                "digest",
+                "media_type"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "artifact"
+          ],
+          "additionalProperties": false
+        },
+        "effects": {
+          "mutation": "managed_data",
+          "disclosure": "local_only",
+          "reversibility": "reversible",
+          "idempotency": "provider_key",
+          "reconciliation": "unsupported",
+          "cost": "enforced_limit"
+        },
+        "required_operation": "managed.write",
+        "idempotency_window_ms": 86400000,
+        "reconciliation_capability": null,
+        "requested_profiles": [],
+        "recovery_contract": {
+          "capability": {
+            "id": "urn:nexos:capability:restore-note",
+            "version": "0.1.0",
+            "manifest_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          },
+          "preconditions": [
+            "Target still has the exact revision written by this invocation."
+          ],
+          "retention_ms": 86400000,
+          "scope": "single_resource",
+          "limitations": [
+            "Fixture only; restoration has not been implemented."
+          ]
+        }
+      }
+    },
+    {
+      "id": "grant-valid",
+      "definition": "grant",
+      "expected": "valid",
+      "instance": {
+        "schema_version": "0.1.0",
+        "kind": "grant",
+        "id": "urn:nexos:grant:example",
+        "issuer_id": "urn:nexos:principal:owner",
+        "subject_id": "urn:nexos:principal:agent-1",
+        "workspace_id": "urn:nexos:workspace:project",
+        "parent_grant_id": null,
+        "not_before": "2026-11-24T00:00:00Z",
+        "expires_at": "2026-11-24T01:00:00Z",
+        "authority_epoch": 3,
+        "delegation_depth": 0,
+        "budget_allocations": [
+          {
+            "budget_id": "urn:nexos:budget:output",
+            "unit": "bytes",
+            "ceiling": 4096,
+            "enforcement": "hard",
+            "currency": null,
+            "minor_unit_exponent": null
+          }
+        ],
+        "rules": [
+          {
+            "capabilities": [
+              {
+                "id": "urn:nexos:capability:write-note",
+                "version": "0.1.0",
+                "manifest_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              }
+            ],
+            "resource_ids": [
+              "urn:nexos:resource:notes"
+            ],
+            "operations": [
+              "managed.write"
+            ],
+            "disclosure_target_ids": []
+          }
+        ],
+        "authority_incarnation_id": "urn:nexos:authority:incarnation-example"
+      }
+    },
+    {
+      "id": "invocation-valid",
+      "definition": "invocation",
+      "expected": "valid",
+      "instance": {
+        "schema_version": "0.1.0",
+        "kind": "invocation",
+        "id": "urn:nexos:invocation:example",
+        "workspace_id": "urn:nexos:workspace:project",
+        "task_id": "urn:nexos:task:example",
+        "principal_id": "urn:nexos:principal:agent-1",
+        "grant_id": "urn:nexos:grant:example",
+        "authority_epoch": 3,
+        "action_digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "approval_receipt_id": null,
+        "idempotency_key": "fixture-note-once",
+        "deadline": "2026-11-24T00:30:00Z",
+        "authority_incarnation_id": "urn:nexos:authority:incarnation-example",
+        "prepared_action_id": "urn:nexos:action:example"
+      }
+    },
+    {
+      "id": "receipt-valid",
+      "definition": "receipt",
+      "expected": "valid",
+      "instance": {
+        "schema_version": "0.1.0",
+        "kind": "effect_receipt",
+        "id": "urn:nexos:receipt:example",
+        "invocation_id": "urn:nexos:invocation:example",
+        "attempt_id": "urn:nexos:attempt:example",
+        "effect_index": 0,
+        "principal_id": "urn:nexos:principal:agent-1",
+        "grant_id": "urn:nexos:grant:example",
+        "provider_id": "urn:nexos:provider:managed-files",
+        "provider_build_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "authority_epoch": 3,
+        "action_digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "observed_at": "2026-11-24T00:01:00Z",
+        "outcome": "applied",
+        "result_artifacts": [
+          {
+            "id": "urn:nexos:artifact:example-note",
+            "digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+            "media_type": "text/plain"
+          }
+        ],
+        "evidence_artifacts": [],
+        "reconciliation_required": false,
+        "related_receipt_ids": [],
+        "authority_incarnation_id": "urn:nexos:authority:incarnation-example",
+        "dispatch_record_id": "urn:nexos:dispatch:example",
+        "usage_record_ids": []
+      }
+    },
+    {
+      "id": "context_manifest-valid",
+      "definition": "context_manifest",
+      "expected": "valid",
+      "instance": {
+        "schema_version": "0.1.0",
+        "kind": "context_manifest",
+        "id": "urn:nexos:context:example",
+        "workspace_id": "urn:nexos:workspace:project",
+        "task_id": "urn:nexos:task:example",
+        "principal_id": "urn:nexos:principal:agent-1",
+        "model_destination_id": "urn:nexos:resource:local-model",
+        "prepared_at": "2026-11-24T00:02:00Z",
+        "items": [
+          {
+            "resource_id": "urn:nexos:resource:notes",
+            "source_revision": 4,
+            "content_digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+            "classification": "workspace_private",
+            "evidence_kind": "observation",
+            "observed_at": "2026-11-24T00:01:00Z",
+            "valid_until": "2026-11-24T00:03:00Z",
+            "reader_grant_id": "urn:nexos:grant:example",
+            "purpose": "Summarize this authorized note",
+            "disclosure_target_ids": [
+              "urn:nexos:resource:local-model"
+            ],
+            "retention_policy_id": "urn:nexos:policy:private-local",
+            "freshness_status": "current",
+            "freshness_note": null
+          }
+        ],
+        "token_budget": 1024,
+        "estimated_tokens": 100,
+        "contains_untrusted_content": true,
+        "payload_retention": "none"
+      }
+    },
+    {
+      "id": "checkpoint-valid",
+      "definition": "checkpoint",
+      "expected": "valid",
+      "instance": {
+        "schema_version": "0.1.0",
+        "kind": "checkpoint",
+        "id": "urn:nexos:checkpoint:example",
+        "task_id": "urn:nexos:task:example",
+        "workspace_id": "urn:nexos:workspace:project",
+        "sealed_at": "2026-11-24T00:03:00Z",
+        "environment_profile": "Q0",
+        "environment_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "components": [
+          {
+            "name": "managed-data",
+            "owner_id": "urn:nexos:provider:managed-files",
+            "artifact": {
+              "id": "urn:nexos:artifact:example-note",
+              "digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+              "media_type": "text/plain"
+            },
+            "consistency": "application_consistent",
+            "restore_capability": {
+              "id": "urn:nexos:capability:restore-note",
+              "version": "0.1.0",
+              "manifest_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            }
+          }
+        ],
+        "pending_invocation_ids": [],
+        "authority_restore": "revalidate_current",
+        "contract_version": "0.1.0"
+      }
+    },
+    {
+      "id": "view-valid",
+      "definition": "view",
+      "expected": "valid",
+      "instance": {
+        "schema_version": "0.1.0",
+        "kind": "view",
+        "id": "urn:nexos:view:example",
+        "workspace_id": "urn:nexos:workspace:project",
+        "revision": 1,
+        "title": "Project notes",
+        "components": [
+          {
+            "id": "title",
+            "component": "heading",
+            "label": "Notes",
+            "binding_id": null
+          },
+          {
+            "id": "save",
+            "component": "action",
+            "label": "Save note",
+            "binding_id": "write"
+          }
+        ],
+        "bindings": [
+          {
+            "id": "write",
+            "mode": "action",
+            "capability": {
+              "id": "urn:nexos:capability:write-note",
+              "version": "0.1.0",
+              "manifest_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            },
+            "input": {
+              "resource_id": "urn:nexos:resource:notes",
+              "text": "Illustrative fixture only."
+            }
+          }
+        ],
+        "renderer_profile": "declarative-v0",
+        "trusted_authorization_ui": false
+      }
+    },
+    {
+      "id": "evidence-valid",
+      "definition": "evidence",
+      "expected": "valid",
+      "instance": {
+        "schema_version": "0.1.0",
+        "kind": "qualification_evidence",
+        "id": "urn:nexos:evidence:synthetic-example",
+        "example_only": true,
+        "validation_kind": "specification",
+        "claim": "Illustrates record shape, not a real runtime result",
+        "subject_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "repository_commit": null,
+        "environment": {
+          "profile_id": "spec-example",
+          "os_release": "synthetic",
+          "kernel": "synthetic",
+          "architecture": "synthetic",
+          "provider_build_digests": [],
+          "toolchain_revision": "synthetic"
+        },
+        "commands": [
+          {
+            "argv": [
+              "example-only"
+            ],
+            "cwd": "example-only",
+            "exit_code": 0,
+            "expected_exit_code": 0,
+            "output_artifact": {
+              "id": "urn:nexos:artifact:example-note",
+              "digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+              "media_type": "text/plain"
+            }
+          }
+        ],
+        "recorded_at": "2026-11-24T00:04:00Z",
+        "result": "passed",
+        "qualifies_runtime": false,
+        "verifier_id": "urn:nexos:principal:example-verifier",
+        "limitations": [
+          "Synthetic fixture; no operating-system behavior was executed."
+        ],
+        "environment_manifest": {
+          "id": "urn:nexos:artifact:synthetic-environment",
+          "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "media_type": "application/json"
+        },
+        "coverage": {
+          "packages": [],
+          "experiences": [],
+          "invariants": [],
+          "release_profile_id": null
+        }
+      }
+    },
+    {
+      "id": "request-valid",
+      "definition": "request",
+      "expected": "valid",
+      "instance": {
+        "protocol_version": "0.1.0",
+        "request_id": "r1",
+        "method": "invocations.commit",
+        "params": {
+          "schema_version": "0.1.0",
+          "kind": "invocation",
+          "id": "urn:nexos:invocation:example",
+          "workspace_id": "urn:nexos:workspace:project",
+          "task_id": "urn:nexos:task:example",
+          "principal_id": "urn:nexos:principal:agent-1",
+          "grant_id": "urn:nexos:grant:example",
+          "authority_epoch": 3,
+          "action_digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "approval_receipt_id": null,
+          "idempotency_key": "fixture-note-once",
+          "deadline": "2026-11-24T00:30:00Z",
+          "authority_incarnation_id": "urn:nexos:authority:incarnation-example",
+          "prepared_action_id": "urn:nexos:action:example"
+        }
+      }
+    },
+    {
+      "id": "response-valid",
+      "definition": "response",
+      "expected": "valid",
+      "instance": {
+        "protocol_version": "0.1.0",
+        "request_id": "r1",
+        "result": {
+          "invocation_id": "urn:nexos:invocation:example",
+          "status": "admitted"
+        }
+      }
+    },
+    {
+      "id": "grant-string-boolean-depth",
+      "definition": "grant",
+      "expected": "invalid",
+      "instance": {
+        "schema_version": "0.1.0",
+        "kind": "grant",
+        "id": "urn:nexos:grant:example",
+        "issuer_id": "urn:nexos:principal:owner",
+        "subject_id": "urn:nexos:principal:agent-1",
+        "workspace_id": "urn:nexos:workspace:project",
+        "parent_grant_id": null,
+        "not_before": "2026-11-24T00:00:00Z",
+        "expires_at": "2026-11-24T01:00:00Z",
+        "authority_epoch": 3,
+        "delegation_depth": "true",
+        "budget_allocations": [
+          {
+            "budget_id": "urn:nexos:budget:output",
+            "unit": "bytes",
+            "ceiling": 4096,
+            "enforcement": "hard",
+            "currency": null,
+            "minor_unit_exponent": null
+          }
+        ],
+        "rules": [
+          {
+            "capabilities": [
+              {
+                "id": "urn:nexos:capability:write-note",
+                "version": "0.1.0",
+                "manifest_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              }
+            ],
+            "resource_ids": [
+              "urn:nexos:resource:notes"
+            ],
+            "operations": [
+              "managed.write"
+            ],
+            "disclosure_target_ids": []
+          }
+        ],
+        "authority_incarnation_id": "urn:nexos:authority:incarnation-example"
+      }
+    },
+    {
+      "id": "grant-unknown-authority-field",
+      "definition": "grant",
+      "expected": "invalid",
+      "instance": {
+        "schema_version": "0.1.0",
+        "kind": "grant",
+        "id": "urn:nexos:grant:example",
+        "issuer_id": "urn:nexos:principal:owner",
+        "subject_id": "urn:nexos:principal:agent-1",
+        "workspace_id": "urn:nexos:workspace:project",
+        "parent_grant_id": null,
+        "not_before": "2026-11-24T00:00:00Z",
+        "expires_at": "2026-11-24T01:00:00Z",
+        "authority_epoch": 3,
+        "delegation_depth": 0,
+        "budget_allocations": [
+          {
+            "budget_id": "urn:nexos:budget:output",
+            "unit": "bytes",
+            "ceiling": 4096,
+            "enforcement": "hard",
+            "currency": null,
+            "minor_unit_exponent": null
+          }
+        ],
+        "superuser": true,
+        "rules": [
+          {
+            "capabilities": [
+              {
+                "id": "urn:nexos:capability:write-note",
+                "version": "0.1.0",
+                "manifest_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              }
+            ],
+            "resource_ids": [
+              "urn:nexos:resource:notes"
+            ],
+            "operations": [
+              "managed.write"
+            ],
+            "disclosure_target_ids": []
+          }
+        ],
+        "authority_incarnation_id": "urn:nexos:authority:incarnation-example"
+      }
+    },
+    {
+      "id": "grant-invalid-date",
+      "definition": "grant",
+      "expected": "invalid",
+      "instance": {
+        "schema_version": "0.1.0",
+        "kind": "grant",
+        "id": "urn:nexos:grant:example",
+        "issuer_id": "urn:nexos:principal:owner",
+        "subject_id": "urn:nexos:principal:agent-1",
+        "workspace_id": "urn:nexos:workspace:project",
+        "parent_grant_id": null,
+        "not_before": "2026-11-24T00:00:00Z",
+        "expires_at": "tomorrow",
+        "authority_epoch": 3,
+        "delegation_depth": 0,
+        "budget_allocations": [
+          {
+            "budget_id": "urn:nexos:budget:output",
+            "unit": "bytes",
+            "ceiling": 4096,
+            "enforcement": "hard",
+            "currency": null,
+            "minor_unit_exponent": null
+          }
+        ],
+        "rules": [
+          {
+            "capabilities": [
+              {
+                "id": "urn:nexos:capability:write-note",
+                "version": "0.1.0",
+                "manifest_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              }
+            ],
+            "resource_ids": [
+              "urn:nexos:resource:notes"
+            ],
+            "operations": [
+              "managed.write"
+            ],
+            "disclosure_target_ids": []
+          }
+        ],
+        "authority_incarnation_id": "urn:nexos:authority:incarnation-example"
+      }
+    },
+    {
+      "id": "grant-negative-budget",
+      "definition": "grant",
+      "expected": "invalid",
+      "instance": {
+        "schema_version": "0.1.0",
+        "kind": "grant",
+        "id": "urn:nexos:grant:example",
+        "issuer_id": "urn:nexos:principal:owner",
+        "subject_id": "urn:nexos:principal:agent-1",
+        "workspace_id": "urn:nexos:workspace:project",
+        "parent_grant_id": null,
+        "not_before": "2026-11-24T00:00:00Z",
+        "expires_at": "2026-11-24T01:00:00Z",
+        "authority_epoch": 3,
+        "delegation_depth": 0,
+        "budget_allocations": [
+          {
+            "budget_id": "urn:nexos:budget:output",
+            "unit": "bytes",
+            "ceiling": -1,
+            "enforcement": "hard",
+            "currency": null,
+            "minor_unit_exponent": null
+          }
+        ],
+        "rules": [
+          {
+            "capabilities": [
+              {
+                "id": "urn:nexos:capability:write-note",
+                "version": "0.1.0",
+                "manifest_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              }
+            ],
+            "resource_ids": [
+              "urn:nexos:resource:notes"
+            ],
+            "operations": [
+              "managed.write"
+            ],
+            "disclosure_target_ids": []
+          }
+        ],
+        "authority_incarnation_id": "urn:nexos:authority:incarnation-example"
+      }
+    },
+    {
+      "id": "money-without-currency",
+      "definition": "grant",
+      "expected": "invalid",
+      "instance": {
+        "schema_version": "0.1.0",
+        "kind": "grant",
+        "id": "urn:nexos:grant:example",
+        "issuer_id": "urn:nexos:principal:owner",
+        "subject_id": "urn:nexos:principal:agent-1",
+        "workspace_id": "urn:nexos:workspace:project",
+        "parent_grant_id": null,
+        "not_before": "2026-11-24T00:00:00Z",
+        "expires_at": "2026-11-24T01:00:00Z",
+        "authority_epoch": 3,
+        "delegation_depth": 0,
+        "budget_allocations": [
+          {
+            "budget_id": "urn:nexos:budget:output",
+            "unit": "minor_units",
+            "ceiling": 4096,
+            "enforcement": "hard",
+            "currency": null,
+            "minor_unit_exponent": null
+          }
+        ],
+        "rules": [
+          {
+            "capabilities": [
+              {
+                "id": "urn:nexos:capability:write-note",
+                "version": "0.1.0",
+                "manifest_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              }
+            ],
+            "resource_ids": [
+              "urn:nexos:resource:notes"
+            ],
+            "operations": [
+              "managed.write"
+            ],
+            "disclosure_target_ids": []
+          }
+        ],
+        "authority_incarnation_id": "urn:nexos:authority:incarnation-example"
+      }
+    },
+    {
+      "id": "provider-key-without-window",
+      "definition": "capability",
+      "expected": "invalid",
+      "instance": {
+        "schema_version": "0.1.0",
+        "kind": "capability",
+        "id": "urn:nexos:capability:write-note",
+        "version": "0.1.0",
+        "provider_id": "urn:nexos:provider:managed-files",
+        "provider_build_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "title": "Write a managed note",
+        "input_schema": {
+          "type": "object",
+          "properties": {
+            "resource_id": {
+              "type": "string",
+              "pattern": "^urn:nexos:resource:[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+            },
+            "text": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 4096
+            }
+          },
+          "required": [
+            "resource_id",
+            "text"
+          ],
+          "additionalProperties": false
+        },
+        "output_schema": {
+          "type": "object",
+          "properties": {
+            "artifact": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "pattern": "^urn:nexos:artifact:[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+                },
+                "digest": {
+                  "type": "string",
+                  "pattern": "^sha256:[0-9a-f]{64}$"
+                },
+                "media_type": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 128
+                }
+              },
+              "required": [
+                "id",
+                "digest",
+                "media_type"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "artifact"
+          ],
+          "additionalProperties": false
+        },
+        "effects": {
+          "mutation": "managed_data",
+          "disclosure": "local_only",
+          "reversibility": "reversible",
+          "idempotency": "provider_key",
+          "reconciliation": "unsupported",
+          "cost": "enforced_limit"
+        },
+        "required_operation": "managed.write",
+        "idempotency_window_ms": null,
+        "reconciliation_capability": null,
+        "requested_profiles": [],
+        "recovery_contract": {
+          "capability": {
+            "id": "urn:nexos:capability:restore-note",
+            "version": "0.1.0",
+            "manifest_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          },
+          "preconditions": [
+            "Target still has the exact revision written by this invocation."
+          ],
+          "retention_ms": 86400000,
+          "scope": "single_resource",
+          "limitations": [
+            "Fixture only; restoration has not been implemented."
+          ]
+        }
+      }
+    },
+    {
+      "id": "compensation-without-capability",
+      "definition": "capability",
+      "expected": "invalid",
+      "instance": {
+        "schema_version": "0.1.0",
+        "kind": "capability",
+        "id": "urn:nexos:capability:write-note",
+        "version": "0.1.0",
+        "provider_id": "urn:nexos:provider:managed-files",
+        "provider_build_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "title": "Write a managed note",
+        "input_schema": {
+          "type": "object",
+          "properties": {
+            "resource_id": {
+              "type": "string",
+              "pattern": "^urn:nexos:resource:[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+            },
+            "text": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 4096
+            }
+          },
+          "required": [
+            "resource_id",
+            "text"
+          ],
+          "additionalProperties": false
+        },
+        "output_schema": {
+          "type": "object",
+          "properties": {
+            "artifact": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "pattern": "^urn:nexos:artifact:[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+                },
+                "digest": {
+                  "type": "string",
+                  "pattern": "^sha256:[0-9a-f]{64}$"
+                },
+                "media_type": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 128
+                }
+              },
+              "required": [
+                "id",
+                "digest",
+                "media_type"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "artifact"
+          ],
+          "additionalProperties": false
+        },
+        "effects": {
+          "mutation": "managed_data",
+          "disclosure": "local_only",
+          "reversibility": "compensatable",
+          "idempotency": "provider_key",
+          "reconciliation": "unsupported",
+          "cost": "enforced_limit"
+        },
+        "required_operation": "managed.write",
+        "idempotency_window_ms": 86400000,
+        "reconciliation_capability": null,
+        "requested_profiles": [],
+        "recovery_contract": null
+      }
+    },
+    {
+      "id": "unknown-outcome-claims-result",
+      "definition": "receipt",
+      "expected": "invalid",
+      "instance": {
+        "schema_version": "0.1.0",
+        "kind": "effect_receipt",
+        "id": "urn:nexos:receipt:example",
+        "invocation_id": "urn:nexos:invocation:example",
+        "attempt_id": "urn:nexos:attempt:example",
+        "effect_index": 0,
+        "principal_id": "urn:nexos:principal:agent-1",
+        "grant_id": "urn:nexos:grant:example",
+        "provider_id": "urn:nexos:provider:managed-files",
+        "provider_build_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "authority_epoch": 3,
+        "action_digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "observed_at": "2026-11-24T00:01:00Z",
+        "outcome": "unknown",
+        "result_artifacts": [
+          {
+            "id": "urn:nexos:artifact:example-note",
+            "digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+            "media_type": "text/plain"
+          }
+        ],
+        "evidence_artifacts": [],
+        "reconciliation_required": true,
+        "related_receipt_ids": [],
+        "authority_incarnation_id": "urn:nexos:authority:incarnation-example",
+        "dispatch_record_id": "urn:nexos:dispatch:example",
+        "usage_record_ids": []
+      }
+    },
+    {
+      "id": "unknown-outcome-no-reconciliation",
+      "definition": "receipt",
+      "expected": "invalid",
+      "instance": {
+        "schema_version": "0.1.0",
+        "kind": "effect_receipt",
+        "id": "urn:nexos:receipt:example",
+        "invocation_id": "urn:nexos:invocation:example",
+        "attempt_id": "urn:nexos:attempt:example",
+        "effect_index": 0,
+        "principal_id": "urn:nexos:principal:agent-1",
+        "grant_id": "urn:nexos:grant:example",
+        "provider_id": "urn:nexos:provider:managed-files",
+        "provider_build_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "authority_epoch": 3,
+        "action_digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "observed_at": "2026-11-24T00:01:00Z",
+        "outcome": "unknown",
+        "result_artifacts": [],
+        "evidence_artifacts": [],
+        "reconciliation_required": false,
+        "related_receipt_ids": [],
+        "authority_incarnation_id": "urn:nexos:authority:incarnation-example",
+        "dispatch_record_id": "urn:nexos:dispatch:example",
+        "usage_record_ids": []
+      }
+    },
+    {
+      "id": "checkpoint-resurrects-grants",
+      "definition": "checkpoint",
+      "expected": "invalid",
+      "instance": {
+        "schema_version": "0.1.0",
+        "kind": "checkpoint",
+        "id": "urn:nexos:checkpoint:example",
+        "task_id": "urn:nexos:task:example",
+        "workspace_id": "urn:nexos:workspace:project",
+        "sealed_at": "2026-11-24T00:03:00Z",
+        "environment_profile": "Q0",
+        "environment_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "components": [
+          {
+            "name": "managed-data",
+            "owner_id": "urn:nexos:provider:managed-files",
+            "artifact": {
+              "id": "urn:nexos:artifact:example-note",
+              "digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+              "media_type": "text/plain"
+            },
+            "consistency": "application_consistent",
+            "restore_capability": {
+              "id": "urn:nexos:capability:restore-note",
+              "version": "0.1.0",
+              "manifest_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            }
+          }
+        ],
+        "pending_invocation_ids": [],
+        "authority_restore": "restore_saved_grants",
+        "contract_version": "0.1.0"
+      }
+    },
+    {
+      "id": "view-arbitrary-script",
+      "definition": "view",
+      "expected": "invalid",
+      "instance": {
+        "schema_version": "0.1.0",
+        "kind": "view",
+        "id": "urn:nexos:view:example",
+        "workspace_id": "urn:nexos:workspace:project",
+        "revision": 1,
+        "title": "Project notes",
+        "components": [
+          {
+            "id": "title",
+            "component": "heading",
+            "label": "Notes",
+            "binding_id": null,
+            "script": "fetch(\"https://example.invalid\")"
+          },
+          {
+            "id": "save",
+            "component": "action",
+            "label": "Save note",
+            "binding_id": "write"
+          }
+        ],
+        "bindings": [
+          {
+            "id": "write",
+            "mode": "action",
+            "capability": {
+              "id": "urn:nexos:capability:write-note",
+              "version": "0.1.0",
+              "manifest_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            },
+            "input": {
+              "resource_id": "urn:nexos:resource:notes",
+              "text": "Illustrative fixture only."
+            }
+          }
+        ],
+        "renderer_profile": "declarative-v0",
+        "trusted_authorization_ui": false
+      }
+    },
+    {
+      "id": "view-impersonates-reviewer",
+      "definition": "view",
+      "expected": "invalid",
+      "instance": {
+        "schema_version": "0.1.0",
+        "kind": "view",
+        "id": "urn:nexos:view:example",
+        "workspace_id": "urn:nexos:workspace:project",
+        "revision": 1,
+        "title": "Project notes",
+        "components": [
+          {
+            "id": "title",
+            "component": "heading",
+            "label": "Notes",
+            "binding_id": null
+          },
+          {
+            "id": "save",
+            "component": "action",
+            "label": "Save note",
+            "binding_id": "write"
+          }
+        ],
+        "bindings": [
+          {
+            "id": "write",
+            "mode": "action",
+            "capability": {
+              "id": "urn:nexos:capability:write-note",
+              "version": "0.1.0",
+              "manifest_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            },
+            "input": {
+              "resource_id": "urn:nexos:resource:notes",
+              "text": "Illustrative fixture only."
+            }
+          }
+        ],
+        "renderer_profile": "declarative-v0",
+        "trusted_authorization_ui": true
+      }
+    },
+    {
+      "id": "context-trusted-retrieved-content",
+      "definition": "context_manifest",
+      "expected": "invalid",
+      "instance": {
+        "schema_version": "0.1.0",
+        "kind": "context_manifest",
+        "id": "urn:nexos:context:example",
+        "workspace_id": "urn:nexos:workspace:project",
+        "task_id": "urn:nexos:task:example",
+        "principal_id": "urn:nexos:principal:agent-1",
+        "model_destination_id": "urn:nexos:resource:local-model",
+        "prepared_at": "2026-11-24T00:02:00Z",
+        "items": [
+          {
+            "resource_id": "urn:nexos:resource:notes",
+            "source_revision": 4,
+            "content_digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+            "classification": "workspace_private",
+            "evidence_kind": "observation",
+            "observed_at": "2026-11-24T00:01:00Z",
+            "valid_until": "2026-11-24T00:03:00Z",
+            "reader_grant_id": "urn:nexos:grant:example",
+            "purpose": "Summarize this authorized note",
+            "disclosure_target_ids": [
+              "urn:nexos:resource:local-model"
+            ],
+            "retention_policy_id": "urn:nexos:policy:private-local",
+            "freshness_status": "current",
+            "freshness_note": null
+          }
+        ],
+        "token_budget": 1024,
+        "estimated_tokens": 100,
+        "contains_untrusted_content": false,
+        "payload_retention": "none"
+      }
+    },
+    {
+      "id": "spec-check-claims-runtime",
+      "definition": "evidence",
+      "expected": "invalid",
+      "instance": {
+        "schema_version": "0.1.0",
+        "kind": "qualification_evidence",
+        "id": "urn:nexos:evidence:synthetic-example",
+        "example_only": true,
+        "validation_kind": "specification",
+        "claim": "Illustrates record shape, not a real runtime result",
+        "subject_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "repository_commit": null,
+        "environment": {
+          "profile_id": "spec-example",
+          "os_release": "synthetic",
+          "kernel": "synthetic",
+          "architecture": "synthetic",
+          "provider_build_digests": [],
+          "toolchain_revision": "synthetic"
+        },
+        "commands": [
+          {
+            "argv": [
+              "example-only"
+            ],
+            "cwd": "example-only",
+            "exit_code": 0,
+            "expected_exit_code": 0,
+            "output_artifact": {
+              "id": "urn:nexos:artifact:example-note",
+              "digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+              "media_type": "text/plain"
+            }
+          }
+        ],
+        "recorded_at": "2026-11-24T00:04:00Z",
+        "result": "passed",
+        "qualifies_runtime": true,
+        "verifier_id": "urn:nexos:principal:example-verifier",
+        "limitations": [
+          "Synthetic fixture; no operating-system behavior was executed."
+        ],
+        "environment_manifest": {
+          "id": "urn:nexos:artifact:synthetic-environment",
+          "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "media_type": "application/json"
+        },
+        "coverage": {
+          "packages": [],
+          "experiences": [],
+          "invariants": [],
+          "release_profile_id": null
+        }
+      }
+    },
+    {
+      "id": "response-both-error-and-result",
+      "definition": "response",
+      "expected": "invalid",
+      "instance": {
+        "protocol_version": "0.1.0",
+        "request_id": "r1",
+        "result": {
+          "invocation_id": "urn:nexos:invocation:example",
+          "status": "admitted"
+        },
+        "error": {
+          "code": "permission_denied",
+          "message": "Denied",
+          "invocation_id": null
+        }
+      }
+    },
+    {
+      "id": "request-unbounded-shell",
+      "definition": "request",
+      "expected": "invalid",
+      "instance": {
+        "protocol_version": "0.1.0",
+        "request_id": "r1",
+        "method": "shell.eval",
+        "params": {
+          "schema_version": "0.1.0",
+          "kind": "invocation",
+          "id": "urn:nexos:invocation:example",
+          "workspace_id": "urn:nexos:workspace:project",
+          "task_id": "urn:nexos:task:example",
+          "principal_id": "urn:nexos:principal:agent-1",
+          "grant_id": "urn:nexos:grant:example",
+          "authority_epoch": 3,
+          "action_digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "approval_receipt_id": null,
+          "idempotency_key": "fixture-note-once",
+          "deadline": "2026-11-24T00:30:00Z",
+          "authority_incarnation_id": "urn:nexos:authority:incarnation-example",
+          "prepared_action_id": "urn:nexos:action:example"
+        }
+      }
+    },
+    {
+      "id": "invocation-malformed-action-digest",
+      "definition": "invocation",
+      "expected": "invalid",
+      "instance": {
+        "schema_version": "0.1.0",
+        "kind": "invocation",
+        "id": "urn:nexos:invocation:example",
+        "workspace_id": "urn:nexos:workspace:project",
+        "task_id": "urn:nexos:task:example",
+        "principal_id": "urn:nexos:principal:agent-1",
+        "grant_id": "urn:nexos:grant:example",
+        "authority_epoch": 3,
+        "action_digest": "latest",
+        "approval_receipt_id": null,
+        "idempotency_key": "fixture-note-once",
+        "deadline": "2026-11-24T00:30:00Z",
+        "authority_incarnation_id": "urn:nexos:authority:incarnation-example",
+        "prepared_action_id": "urn:nexos:action:example"
+      }
+    },
+    {
+      "id": "receipt-unknown-valid",
+      "definition": "receipt",
+      "expected": "valid",
+      "instance": {
+        "schema_version": "0.1.0",
+        "kind": "effect_receipt",
+        "id": "urn:nexos:receipt:example",
+        "invocation_id": "urn:nexos:invocation:example",
+        "attempt_id": "urn:nexos:attempt:example",
+        "effect_index": 0,
+        "principal_id": "urn:nexos:principal:agent-1",
+        "grant_id": "urn:nexos:grant:example",
+        "provider_id": "urn:nexos:provider:managed-files",
+        "provider_build_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "authority_epoch": 3,
+        "action_digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "observed_at": "2026-11-24T00:01:00Z",
+        "outcome": "unknown",
+        "result_artifacts": [],
+        "evidence_artifacts": [],
+        "reconciliation_required": true,
+        "related_receipt_ids": [],
+        "authority_incarnation_id": "urn:nexos:authority:incarnation-example",
+        "dispatch_record_id": "urn:nexos:dispatch:example",
+        "usage_record_ids": []
+      }
+    },
+    {
+      "id": "preparation_request-valid",
+      "definition": "preparation_request",
+      "expected": "valid",
+      "instance": {
+        "schema_version": "0.1.0",
+        "workspace_id": "urn:nexos:workspace:project",
+        "task_id": "urn:nexos:task:example",
+        "principal_id": "urn:nexos:principal:agent-1",
+        "grant_id": "urn:nexos:grant:example",
+        "authority_epoch": 3,
+        "deadline": "2026-11-24T00:30:00Z",
+        "authority_incarnation_id": "urn:nexos:authority:incarnation-example",
+        "kind": "preparation_request",
+        "branch_id": "urn:nexos:branch:candidate",
+        "capability": {
+          "id": "urn:nexos:capability:write-note",
+          "version": "0.1.0",
+          "manifest_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        },
+        "input": {
+          "resource_id": "urn:nexos:resource:notes",
+          "text": "Illustrative fixture only."
+        },
+        "expected_preconditions": [
+          {
+            "resource_id": "urn:nexos:resource:notes",
+            "expected_revision": 4
+          }
+        ]
+      }
+    },
+    {
+      "id": "prepared_action-valid",
+      "definition": "prepared_action",
+      "expected": "valid",
+      "instance": {
+        "schema_version": "0.1.0",
+        "workspace_id": "urn:nexos:workspace:project",
+        "task_id": "urn:nexos:task:example",
+        "principal_id": "urn:nexos:principal:agent-1",
+        "grant_id": "urn:nexos:grant:example",
+        "authority_epoch": 3,
+        "deadline": "2026-11-24T00:30:00Z",
+        "authority_incarnation_id": "urn:nexos:authority:incarnation-example",
+        "kind": "prepared_action",
+        "branch_id": "urn:nexos:branch:candidate",
+        "capability": {
+          "id": "urn:nexos:capability:write-note",
+          "version": "0.1.0",
+          "manifest_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        },
+        "input": {
+          "resource_id": "urn:nexos:resource:notes",
+          "text": "Illustrative fixture only."
+        },
+        "id": "urn:nexos:action:example",
+        "provider_build_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "preconditions": [
+          {
+            "resource_id": "urn:nexos:resource:notes",
+            "expected_revision": 4
+          }
+        ],
+        "target_operations": [
+          {
+            "resource_id": "urn:nexos:resource:notes",
+            "operation": "managed.write"
+          }
+        ],
+        "effects": {
+          "mutation": "managed_data",
+          "disclosure": "local_only",
+          "reversibility": "reversible",
+          "idempotency": "provider_key",
+          "reconciliation": "unsupported",
+          "cost": "enforced_limit"
+        },
+        "disclosure_target_ids": [],
+        "budget_allocations": [
+          {
+            "budget_id": "urn:nexos:budget:output",
+            "unit": "bytes",
+            "ceiling": 4096,
+            "enforcement": "hard",
+            "currency": null,
+            "minor_unit_exponent": null
+          }
+        ],
+        "policy_revision": 8,
+        "qualification_profile": "disposable-specimen",
+        "prepared_at": "2026-11-24T00:00:01Z",
+        "expires_at": "2026-11-24T00:10:00Z"
+      }
+    },
+    {
+      "id": "dispatch_record-valid",
+      "definition": "dispatch_record",
+      "expected": "valid",
+      "instance": {
+        "schema_version": "0.1.0",
+        "kind": "dispatch_record",
+        "id": "urn:nexos:dispatch:example",
+        "invocation_id": "urn:nexos:invocation:example",
+        "attempt_id": "urn:nexos:attempt:example",
+        "prepared_action_id": "urn:nexos:action:example",
+        "action_digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "authority_incarnation_id": "urn:nexos:authority:incarnation-example",
+        "authority_epoch": 3,
+        "provider_id": "urn:nexos:provider:managed-files",
+        "provider_build_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "targets": [
+          {
+            "resource_id": "urn:nexos:resource:notes",
+            "operation": "managed.write",
+            "enforcement": "revision_cas",
+            "fencing_token": "revision-4",
+            "lease_id": null,
+            "exposure_policy_id": null,
+            "max_inflight": null
+          }
+        ],
+        "dispatch_intent_at": "2026-11-24T00:00:10Z",
+        "provider_idempotency_key": "fixture-note-once"
+      }
+    },
+    {
+      "id": "usage-valid",
+      "definition": "usage",
+      "expected": "valid",
+      "instance": {
+        "schema_version": "0.1.0",
+        "kind": "usage_record",
+        "id": "urn:nexos:usage:example",
+        "invocation_id": "urn:nexos:invocation:example",
+        "reservation_id": "urn:nexos:reservation:example",
+        "budget_id": "urn:nexos:budget:output",
+        "unit": "bytes",
+        "amount": 32,
+        "measurement": "measured",
+        "settlement": "settled",
+        "currency": null,
+        "minor_unit_exponent": null,
+        "provider_evidence": null,
+        "observed_at": "2026-11-24T00:01:00Z"
+      }
+    },
+    {
+      "id": "request-prepare-valid",
+      "definition": "request",
+      "expected": "valid",
+      "instance": {
+        "protocol_version": "0.1.0",
+        "request_id": "r0",
+        "method": "invocations.prepare",
+        "params": {
+          "schema_version": "0.1.0",
+          "workspace_id": "urn:nexos:workspace:project",
+          "task_id": "urn:nexos:task:example",
+          "principal_id": "urn:nexos:principal:agent-1",
+          "grant_id": "urn:nexos:grant:example",
+          "authority_epoch": 3,
+          "deadline": "2026-11-24T00:30:00Z",
+          "authority_incarnation_id": "urn:nexos:authority:incarnation-example",
+          "kind": "preparation_request",
+          "branch_id": "urn:nexos:branch:candidate",
+          "capability": {
+            "id": "urn:nexos:capability:write-note",
+            "version": "0.1.0",
+            "manifest_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          },
+          "input": {
+            "resource_id": "urn:nexos:resource:notes",
+            "text": "Illustrative fixture only."
+          },
+          "expected_preconditions": [
+            {
+              "resource_id": "urn:nexos:resource:notes",
+              "expected_revision": 4
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "prepared-action-policy-missing",
+      "definition": "prepared_action",
+      "expected": "invalid",
+      "instance": {
+        "schema_version": "0.1.0",
+        "workspace_id": "urn:nexos:workspace:project",
+        "task_id": "urn:nexos:task:example",
+        "principal_id": "urn:nexos:principal:agent-1",
+        "grant_id": "urn:nexos:grant:example",
+        "authority_epoch": 3,
+        "deadline": "2026-11-24T00:30:00Z",
+        "authority_incarnation_id": "urn:nexos:authority:incarnation-example",
+        "kind": "prepared_action",
+        "branch_id": "urn:nexos:branch:candidate",
+        "capability": {
+          "id": "urn:nexos:capability:write-note",
+          "version": "0.1.0",
+          "manifest_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        },
+        "input": {
+          "resource_id": "urn:nexos:resource:notes",
+          "text": "Illustrative fixture only."
+        },
+        "id": "urn:nexos:action:example",
+        "provider_build_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "preconditions": [
+          {
+            "resource_id": "urn:nexos:resource:notes",
+            "expected_revision": 4
+          }
+        ],
+        "target_operations": [
+          {
+            "resource_id": "urn:nexos:resource:notes",
+            "operation": "managed.write"
+          }
+        ],
+        "effects": {
+          "mutation": "managed_data",
+          "disclosure": "local_only",
+          "reversibility": "reversible",
+          "idempotency": "provider_key",
+          "reconciliation": "unsupported",
+          "cost": "enforced_limit"
+        },
+        "disclosure_target_ids": [],
+        "budget_allocations": [
+          {
+            "budget_id": "urn:nexos:budget:output",
+            "unit": "bytes",
+            "ceiling": 4096,
+            "enforcement": "hard",
+            "currency": null,
+            "minor_unit_exponent": null
+          }
+        ],
+        "qualification_profile": "disposable-specimen",
+        "prepared_at": "2026-11-24T00:00:01Z",
+        "expires_at": "2026-11-24T00:10:00Z"
+      }
+    },
+    {
+      "id": "grant-incarnation-missing",
+      "definition": "grant",
+      "expected": "invalid",
+      "instance": {
+        "schema_version": "0.1.0",
+        "kind": "grant",
+        "id": "urn:nexos:grant:example",
+        "issuer_id": "urn:nexos:principal:owner",
+        "subject_id": "urn:nexos:principal:agent-1",
+        "workspace_id": "urn:nexos:workspace:project",
+        "parent_grant_id": null,
+        "not_before": "2026-11-24T00:00:00Z",
+        "expires_at": "2026-11-24T01:00:00Z",
+        "authority_epoch": 3,
+        "delegation_depth": 0,
+        "budget_allocations": [
+          {
+            "budget_id": "urn:nexos:budget:output",
+            "unit": "bytes",
+            "ceiling": 4096,
+            "enforcement": "hard",
+            "currency": null,
+            "minor_unit_exponent": null
+          }
+        ],
+        "rules": [
+          {
+            "capabilities": [
+              {
+                "id": "urn:nexos:capability:write-note",
+                "version": "0.1.0",
+                "manifest_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              }
+            ],
+            "resource_ids": [
+              "urn:nexos:resource:notes"
+            ],
+            "operations": [
+              "managed.write"
+            ],
+            "disclosure_target_ids": []
+          }
+        ]
+      }
+    },
+    {
+      "id": "reversible-without-recovery",
+      "definition": "capability",
+      "expected": "invalid",
+      "instance": {
+        "schema_version": "0.1.0",
+        "kind": "capability",
+        "id": "urn:nexos:capability:write-note",
+        "version": "0.1.0",
+        "provider_id": "urn:nexos:provider:managed-files",
+        "provider_build_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "title": "Write a managed note",
+        "input_schema": {
+          "type": "object",
+          "properties": {
+            "resource_id": {
+              "type": "string",
+              "pattern": "^urn:nexos:resource:[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+            },
+            "text": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 4096
+            }
+          },
+          "required": [
+            "resource_id",
+            "text"
+          ],
+          "additionalProperties": false
+        },
+        "output_schema": {
+          "type": "object",
+          "properties": {
+            "artifact": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "pattern": "^urn:nexos:artifact:[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+                },
+                "digest": {
+                  "type": "string",
+                  "pattern": "^sha256:[0-9a-f]{64}$"
+                },
+                "media_type": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 128
+                }
+              },
+              "required": [
+                "id",
+                "digest",
+                "media_type"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "artifact"
+          ],
+          "additionalProperties": false
+        },
+        "effects": {
+          "mutation": "managed_data",
+          "disclosure": "local_only",
+          "reversibility": "reversible",
+          "idempotency": "provider_key",
+          "reconciliation": "unsupported",
+          "cost": "enforced_limit"
+        },
+        "required_operation": "managed.write",
+        "idempotency_window_ms": 86400000,
+        "reconciliation_capability": null,
+        "requested_profiles": [],
+        "recovery_contract": null
+      }
+    },
+    {
+      "id": "dispatch-no-fence",
+      "definition": "dispatch_record",
+      "expected": "invalid",
+      "instance": {
+        "schema_version": "0.1.0",
+        "kind": "dispatch_record",
+        "id": "urn:nexos:dispatch:example",
+        "invocation_id": "urn:nexos:invocation:example",
+        "attempt_id": "urn:nexos:attempt:example",
+        "prepared_action_id": "urn:nexos:action:example",
+        "action_digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "authority_incarnation_id": "urn:nexos:authority:incarnation-example",
+        "authority_epoch": 3,
+        "provider_id": "urn:nexos:provider:managed-files",
+        "provider_build_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "targets": [
+          {
+            "resource_id": "urn:nexos:resource:notes",
+            "operation": "managed.write",
+            "enforcement": "revision_cas",
+            "fencing_token": null,
+            "lease_id": null,
+            "exposure_policy_id": null,
+            "max_inflight": null
+          }
+        ],
+        "dispatch_intent_at": "2026-11-24T00:00:10Z",
+        "provider_idempotency_key": "fixture-note-once"
+      }
+    },
+    {
+      "id": "unknown-usage-settled",
+      "definition": "usage",
+      "expected": "invalid",
+      "instance": {
+        "schema_version": "0.1.0",
+        "kind": "usage_record",
+        "id": "urn:nexos:usage:example",
+        "invocation_id": "urn:nexos:invocation:example",
+        "reservation_id": "urn:nexos:reservation:example",
+        "budget_id": "urn:nexos:budget:output",
+        "unit": "bytes",
+        "amount": null,
+        "measurement": "unknown",
+        "settlement": "settled",
+        "currency": null,
+        "minor_unit_exponent": null,
+        "provider_evidence": null,
+        "observed_at": "2026-11-24T00:01:00Z"
+      }
+    },
+    {
+      "id": "evidence-missing-environment-manifest",
+      "definition": "evidence",
+      "expected": "invalid",
+      "instance": {
+        "schema_version": "0.1.0",
+        "kind": "qualification_evidence",
+        "id": "urn:nexos:evidence:synthetic-example",
+        "example_only": true,
+        "validation_kind": "specification",
+        "claim": "Illustrates record shape, not a real runtime result",
+        "subject_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "repository_commit": null,
+        "environment": {
+          "profile_id": "spec-example",
+          "os_release": "synthetic",
+          "kernel": "synthetic",
+          "architecture": "synthetic",
+          "provider_build_digests": [],
+          "toolchain_revision": "synthetic"
+        },
+        "commands": [
+          {
+            "argv": [
+              "example-only"
+            ],
+            "cwd": "example-only",
+            "exit_code": 0,
+            "expected_exit_code": 0,
+            "output_artifact": {
+              "id": "urn:nexos:artifact:example-note",
+              "digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+              "media_type": "text/plain"
+            }
+          }
+        ],
+        "recorded_at": "2026-11-24T00:04:00Z",
+        "result": "passed",
+        "qualifies_runtime": false,
+        "verifier_id": "urn:nexos:principal:example-verifier",
+        "limitations": [
+          "Synthetic fixture; no operating-system behavior was executed."
+        ],
+        "coverage": {
+          "packages": [],
+          "experiences": [],
+          "invariants": [],
+          "release_profile_id": null
+        }
+      }
+    },
+    {
+      "id": "grant-expiry-before-start",
+      "definition": "grant",
+      "expected": "invalid",
+      "instance": {
+        "schema_version": "0.1.0",
+        "kind": "grant",
+        "id": "urn:nexos:grant:example",
+        "issuer_id": "urn:nexos:principal:owner",
+        "subject_id": "urn:nexos:principal:agent-1",
+        "workspace_id": "urn:nexos:workspace:project",
+        "parent_grant_id": null,
+        "not_before": "2026-11-24T00:00:00Z",
+        "expires_at": "2026-11-23T00:00:00Z",
+        "authority_epoch": 3,
+        "delegation_depth": 0,
+        "budget_allocations": [
+          {
+            "budget_id": "urn:nexos:budget:output",
+            "unit": "bytes",
+            "ceiling": 4096,
+            "enforcement": "hard",
+            "currency": null,
+            "minor_unit_exponent": null
+          }
+        ],
+        "rules": [
+          {
+            "capabilities": [
+              {
+                "id": "urn:nexos:capability:write-note",
+                "version": "0.1.0",
+                "manifest_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              }
+            ],
+            "resource_ids": [
+              "urn:nexos:resource:notes"
+            ],
+            "operations": [
+              "managed.write"
+            ],
+            "disclosure_target_ids": []
+          }
+        ],
+        "authority_incarnation_id": "urn:nexos:authority:incarnation-example"
+      },
+      "semantic": true
+    },
+    {
+      "id": "view-missing-binding",
+      "definition": "view",
+      "expected": "invalid",
+      "instance": {
+        "schema_version": "0.1.0",
+        "kind": "view",
+        "id": "urn:nexos:view:example",
+        "workspace_id": "urn:nexos:workspace:project",
+        "revision": 1,
+        "title": "Project notes",
+        "components": [
+          {
+            "id": "title",
+            "component": "heading",
+            "label": "Notes",
+            "binding_id": null
+          },
+          {
+            "id": "save",
+            "component": "action",
+            "label": "Save note",
+            "binding_id": "absent"
+          }
+        ],
+        "bindings": [
+          {
+            "id": "write",
+            "mode": "action",
+            "capability": {
+              "id": "urn:nexos:capability:write-note",
+              "version": "0.1.0",
+              "manifest_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            },
+            "input": {
+              "resource_id": "urn:nexos:resource:notes",
+              "text": "Illustrative fixture only."
+            }
+          }
+        ],
+        "renderer_profile": "declarative-v0",
+        "trusted_authorization_ui": false
+      },
+      "semantic": true
+    },
+    {
+      "id": "context-over-token-budget",
+      "definition": "context_manifest",
+      "expected": "invalid",
+      "instance": {
+        "schema_version": "0.1.0",
+        "kind": "context_manifest",
+        "id": "urn:nexos:context:example",
+        "workspace_id": "urn:nexos:workspace:project",
+        "task_id": "urn:nexos:task:example",
+        "principal_id": "urn:nexos:principal:agent-1",
+        "model_destination_id": "urn:nexos:resource:local-model",
+        "prepared_at": "2026-11-24T00:02:00Z",
+        "items": [
+          {
+            "resource_id": "urn:nexos:resource:notes",
+            "source_revision": 4,
+            "content_digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+            "classification": "workspace_private",
+            "evidence_kind": "observation",
+            "observed_at": "2026-11-24T00:01:00Z",
+            "valid_until": "2026-11-24T00:03:00Z",
+            "reader_grant_id": "urn:nexos:grant:example",
+            "purpose": "Summarize this authorized note",
+            "disclosure_target_ids": [
+              "urn:nexos:resource:local-model"
+            ],
+            "retention_policy_id": "urn:nexos:policy:private-local",
+            "freshness_status": "current",
+            "freshness_note": null
+          }
+        ],
+        "token_budget": 1024,
+        "estimated_tokens": 2000,
+        "contains_untrusted_content": true,
+        "payload_retention": "none"
+      },
+      "semantic": true
+    },
+    {
+      "id": "capability-remote-schema-ref",
+      "definition": "capability",
+      "expected": "invalid",
+      "instance": {
+        "schema_version": "0.1.0",
+        "kind": "capability",
+        "id": "urn:nexos:capability:write-note",
+        "version": "0.1.0",
+        "provider_id": "urn:nexos:provider:managed-files",
+        "provider_build_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "title": "Write a managed note",
+        "input_schema": {
+          "$ref": "https://example.invalid/schema"
+        },
+        "output_schema": {
+          "type": "object",
+          "properties": {
+            "artifact": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "pattern": "^urn:nexos:artifact:[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+                },
+                "digest": {
+                  "type": "string",
+                  "pattern": "^sha256:[0-9a-f]{64}$"
+                },
+                "media_type": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 128
+                }
+              },
+              "required": [
+                "id",
+                "digest",
+                "media_type"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "artifact"
+          ],
+          "additionalProperties": false
+        },
+        "effects": {
+          "mutation": "managed_data",
+          "disclosure": "local_only",
+          "reversibility": "reversible",
+          "idempotency": "provider_key",
+          "reconciliation": "unsupported",
+          "cost": "enforced_limit"
+        },
+        "required_operation": "managed.write",
+        "idempotency_window_ms": 86400000,
+        "reconciliation_capability": null,
+        "requested_profiles": [],
+        "recovery_contract": {
+          "capability": {
+            "id": "urn:nexos:capability:restore-note",
+            "version": "0.1.0",
+            "manifest_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          },
+          "preconditions": [
+            "Target still has the exact revision written by this invocation."
+          ],
+          "retention_ms": 86400000,
+          "scope": "single_resource",
+          "limitations": [
+            "Fixture only; restoration has not been implemented."
+          ]
+        }
+      },
+      "semantic": true
+    },
+    {
+      "id": "evidence-pass-with-failed-command",
+      "definition": "evidence",
+      "expected": "invalid",
+      "instance": {
+        "schema_version": "0.1.0",
+        "kind": "qualification_evidence",
+        "id": "urn:nexos:evidence:synthetic-example",
+        "example_only": true,
+        "validation_kind": "specification",
+        "claim": "Illustrates record shape, not a real runtime result",
+        "subject_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "repository_commit": null,
+        "environment": {
+          "profile_id": "spec-example",
+          "os_release": "synthetic",
+          "kernel": "synthetic",
+          "architecture": "synthetic",
+          "provider_build_digests": [],
+          "toolchain_revision": "synthetic"
+        },
+        "commands": [
+          {
+            "argv": [
+              "example-only"
+            ],
+            "cwd": "example-only",
+            "exit_code": 2,
+            "expected_exit_code": 0,
+            "output_artifact": {
+              "id": "urn:nexos:artifact:example-note",
+              "digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+              "media_type": "text/plain"
+            }
+          }
+        ],
+        "recorded_at": "2026-11-24T00:04:00Z",
+        "result": "passed",
+        "qualifies_runtime": false,
+        "verifier_id": "urn:nexos:principal:example-verifier",
+        "limitations": [
+          "Synthetic fixture; no operating-system behavior was executed."
+        ],
+        "environment_manifest": {
+          "id": "urn:nexos:artifact:synthetic-environment",
+          "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "media_type": "application/json"
+        },
+        "coverage": {
+          "packages": [],
+          "experiences": [],
+          "invariants": [],
+          "release_profile_id": null
+        }
+      },
+      "semantic": true
+    },
+    {
+      "id": "grant-duplicate-budget",
+      "definition": "grant",
+      "expected": "invalid",
+      "semantic": true,
+      "instance": {
+        "schema_version": "0.1.0",
+        "kind": "grant",
+        "id": "urn:nexos:grant:example",
+        "issuer_id": "urn:nexos:principal:owner",
+        "subject_id": "urn:nexos:principal:agent-1",
+        "workspace_id": "urn:nexos:workspace:project",
+        "parent_grant_id": null,
+        "not_before": "2026-11-24T00:00:00Z",
+        "expires_at": "2026-11-24T01:00:00Z",
+        "authority_epoch": 3,
+        "delegation_depth": 0,
+        "budget_allocations": [
+          {
+            "budget_id": "urn:nexos:budget:output",
+            "unit": "bytes",
+            "ceiling": 4096,
+            "enforcement": "hard",
+            "currency": null,
+            "minor_unit_exponent": null
+          },
+          {
+            "budget_id": "urn:nexos:budget:output",
+            "unit": "bytes",
+            "ceiling": 4096,
+            "enforcement": "hard",
+            "currency": null,
+            "minor_unit_exponent": null
+          }
+        ],
+        "rules": [
+          {
+            "capabilities": [
+              {
+                "id": "urn:nexos:capability:write-note",
+                "version": "0.1.0",
+                "manifest_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              }
+            ],
+            "resource_ids": [
+              "urn:nexos:resource:notes"
+            ],
+            "operations": [
+              "managed.write"
+            ],
+            "disclosure_target_ids": []
+          }
+        ],
+        "authority_incarnation_id": "urn:nexos:authority:incarnation-example"
+      }
+    },
+    {
+      "id": "view-mutation-disguised-query",
+      "definition": "view",
+      "expected": "invalid",
+      "semantic": true,
+      "instance": {
+        "schema_version": "0.1.0",
+        "kind": "view",
+        "id": "urn:nexos:view:example",
+        "workspace_id": "urn:nexos:workspace:project",
+        "revision": 1,
+        "title": "Project notes",
+        "components": [
+          {
+            "id": "title",
+            "component": "heading",
+            "label": "Notes",
+            "binding_id": null
+          },
+          {
+            "id": "save",
+            "component": "action",
+            "label": "Save note",
+            "binding_id": "write"
+          }
+        ],
+        "bindings": [
+          {
+            "id": "write",
+            "mode": "query",
+            "capability": {
+              "id": "urn:nexos:capability:write-note",
+              "version": "0.1.0",
+              "manifest_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            },
+            "input": {
+              "resource_id": "urn:nexos:resource:notes",
+              "text": "Illustrative fixture only."
+            }
+          }
+        ],
+        "renderer_profile": "declarative-v0",
+        "trusted_authorization_ui": false
+      }
+    },
+    {
+      "id": "capability-scalar-input",
+      "definition": "capability",
+      "expected": "invalid",
+      "semantic": true,
+      "instance": {
+        "schema_version": "0.1.0",
+        "kind": "capability",
+        "id": "urn:nexos:capability:write-note",
+        "version": "0.1.0",
+        "provider_id": "urn:nexos:provider:managed-files",
+        "provider_build_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "title": "Write a managed note",
+        "input_schema": {
+          "type": "string"
+        },
+        "output_schema": {
+          "type": "object",
+          "properties": {
+            "artifact": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "pattern": "^urn:nexos:artifact:[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+                },
+                "digest": {
+                  "type": "string",
+                  "pattern": "^sha256:[0-9a-f]{64}$"
+                },
+                "media_type": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 128
+                }
+              },
+              "required": [
+                "id",
+                "digest",
+                "media_type"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "artifact"
+          ],
+          "additionalProperties": false
+        },
+        "effects": {
+          "mutation": "managed_data",
+          "disclosure": "local_only",
+          "reversibility": "reversible",
+          "idempotency": "provider_key",
+          "reconciliation": "unsupported",
+          "cost": "enforced_limit"
+        },
+        "required_operation": "managed.write",
+        "idempotency_window_ms": 86400000,
+        "reconciliation_capability": null,
+        "requested_profiles": [],
+        "recovery_contract": {
+          "capability": {
+            "id": "urn:nexos:capability:restore-note",
+            "version": "0.1.0",
+            "manifest_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          },
+          "preconditions": [
+            "Target still has the exact revision written by this invocation."
+          ],
+          "retention_ms": 86400000,
+          "scope": "single_resource",
+          "limitations": [
+            "Fixture only; restoration has not been implemented."
+          ]
+        }
+      }
+    },
+    {
+      "id": "runtime-evidence-no-commit",
+      "definition": "evidence",
+      "expected": "invalid",
+      "semantic": false,
+      "instance": {
+        "schema_version": "0.1.0",
+        "kind": "qualification_evidence",
+        "id": "urn:nexos:evidence:synthetic-example",
+        "example_only": false,
+        "validation_kind": "runtime_vm",
+        "claim": "Illustrates record shape, not a real runtime result",
+        "subject_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "repository_commit": null,
+        "environment": {
+          "profile_id": "spec-example",
+          "os_release": "synthetic",
+          "kernel": "synthetic",
+          "architecture": "synthetic",
+          "provider_build_digests": [],
+          "toolchain_revision": "synthetic"
+        },
+        "commands": [
+          {
+            "argv": [
+              "example-only"
+            ],
+            "cwd": "example-only",
+            "exit_code": 0,
+            "expected_exit_code": 0,
+            "output_artifact": {
+              "id": "urn:nexos:artifact:example-note",
+              "digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+              "media_type": "text/plain"
+            }
+          }
+        ],
+        "recorded_at": "2026-11-24T00:04:00Z",
+        "result": "passed",
+        "qualifies_runtime": true,
+        "verifier_id": "urn:nexos:principal:example-verifier",
+        "limitations": [
+          "Synthetic fixture; no operating-system behavior was executed."
+        ],
+        "environment_manifest": {
+          "id": "urn:nexos:artifact:synthetic-environment",
+          "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "media_type": "application/json"
+        },
+        "coverage": {
+          "packages": [],
+          "experiences": [],
+          "invariants": [],
+          "release_profile_id": null
+        }
+      }
+    },
+    {
+      "id": "dispatch-bounded-valid",
+      "definition": "dispatch_record",
+      "expected": "valid",
+      "instance": {
+        "schema_version": "0.1.0",
+        "kind": "dispatch_record",
+        "id": "urn:nexos:dispatch:example",
+        "invocation_id": "urn:nexos:invocation:example",
+        "attempt_id": "urn:nexos:attempt:example",
+        "prepared_action_id": "urn:nexos:action:example",
+        "action_digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "authority_incarnation_id": "urn:nexos:authority:incarnation-example",
+        "authority_epoch": 3,
+        "provider_id": "urn:nexos:provider:managed-files",
+        "provider_build_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "targets": [
+          {
+            "resource_id": "urn:nexos:resource:notes",
+            "operation": "managed.write",
+            "enforcement": "bounded_dispatch",
+            "fencing_token": null,
+            "lease_id": null,
+            "exposure_policy_id": "urn:nexos:policy:one-remote-attempt",
+            "max_inflight": 1
+          }
+        ],
+        "dispatch_intent_at": "2026-11-24T00:00:10Z",
+        "provider_idempotency_key": "fixture-note-once"
+      }
+    },
+    {
+      "id": "context-historical-valid",
+      "definition": "context_manifest",
+      "expected": "valid",
+      "instance": {
+        "schema_version": "0.1.0",
+        "kind": "context_manifest",
+        "id": "urn:nexos:context:example",
+        "workspace_id": "urn:nexos:workspace:project",
+        "task_id": "urn:nexos:task:example",
+        "principal_id": "urn:nexos:principal:agent-1",
+        "model_destination_id": "urn:nexos:resource:local-model",
+        "prepared_at": "2026-11-24T00:04:00Z",
+        "items": [
+          {
+            "resource_id": "urn:nexos:resource:notes",
+            "source_revision": 4,
+            "content_digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+            "classification": "workspace_private",
+            "evidence_kind": "observation",
+            "observed_at": "2026-11-24T00:01:00Z",
+            "valid_until": "2026-11-24T00:03:00Z",
+            "reader_grant_id": "urn:nexos:grant:example",
+            "purpose": "Summarize this authorized note",
+            "disclosure_target_ids": [
+              "urn:nexos:resource:local-model"
+            ],
+            "retention_policy_id": "urn:nexos:policy:private-local",
+            "freshness_status": "historical",
+            "freshness_note": "Explicitly requested historical snapshot; not current system state."
+          }
+        ],
+        "token_budget": 1024,
+        "estimated_tokens": 100,
+        "contains_untrusted_content": true,
+        "payload_retention": "none"
+      }
+    },
+    {
+      "id": "context-expired-current",
+      "definition": "context_manifest",
+      "expected": "invalid",
+      "semantic": true,
+      "instance": {
+        "schema_version": "0.1.0",
+        "kind": "context_manifest",
+        "id": "urn:nexos:context:example",
+        "workspace_id": "urn:nexos:workspace:project",
+        "task_id": "urn:nexos:task:example",
+        "principal_id": "urn:nexos:principal:agent-1",
+        "model_destination_id": "urn:nexos:resource:local-model",
+        "prepared_at": "2026-11-24T00:04:00Z",
+        "items": [
+          {
+            "resource_id": "urn:nexos:resource:notes",
+            "source_revision": 4,
+            "content_digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+            "classification": "workspace_private",
+            "evidence_kind": "observation",
+            "observed_at": "2026-11-24T00:01:00Z",
+            "valid_until": "2026-11-24T00:03:00Z",
+            "reader_grant_id": "urn:nexos:grant:example",
+            "purpose": "Summarize this authorized note",
+            "disclosure_target_ids": [
+              "urn:nexos:resource:local-model"
+            ],
+            "retention_policy_id": "urn:nexos:policy:private-local",
+            "freshness_status": "current",
+            "freshness_note": null
+          }
+        ],
+        "token_budget": 1024,
+        "estimated_tokens": 100,
+        "contains_untrusted_content": true,
+        "payload_retention": "none"
+      }
+    },
+    {
+      "id": "estimated-usage-cannot-settle",
+      "definition": "usage",
+      "expected": "invalid",
+      "instance": {
+        "schema_version": "0.1.0",
+        "kind": "usage_record",
+        "id": "urn:nexos:usage:example",
+        "invocation_id": "urn:nexos:invocation:example",
+        "reservation_id": "urn:nexos:reservation:example",
+        "budget_id": "urn:nexos:budget:output",
+        "unit": "bytes",
+        "amount": 32,
+        "measurement": "estimated",
+        "settlement": "settled",
+        "currency": null,
+        "minor_unit_exponent": null,
+        "provider_evidence": null,
+        "observed_at": "2026-11-24T00:01:00Z"
+      }
+    }
+  ]
+}

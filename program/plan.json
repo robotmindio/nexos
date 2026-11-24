@@ -1,0 +1,794 @@
+{
+  "schema_version": "0.1.0",
+  "packages": [
+    {
+      "id": "P00",
+      "title": "Scoped inventory and qualification tuple",
+      "depends_on": [],
+      "experiences": [
+        "E08"
+      ],
+      "invariants": [
+        "I16",
+        "I18",
+        "I20"
+      ],
+      "milestone": "M1",
+      "document": "program/work-packages/P00.md",
+      "qualification_kind": "specification"
+    },
+    {
+      "id": "P01",
+      "title": "First real managed operation through the broker",
+      "depends_on": [
+        "P00"
+      ],
+      "experiences": [
+        "E04",
+        "E05",
+        "E08"
+      ],
+      "invariants": [
+        "I01",
+        "I04",
+        "I08",
+        "I09",
+        "I12",
+        "I16",
+        "I20"
+      ],
+      "milestone": "M1",
+      "document": "program/work-packages/P01.md",
+      "qualification_kind": "runtime"
+    },
+    {
+      "id": "P02",
+      "title": "Enforced authority, delegation and accounting",
+      "depends_on": [
+        "P01"
+      ],
+      "experiences": [
+        "E04",
+        "E08",
+        "E09"
+      ],
+      "invariants": [
+        "I01",
+        "I02",
+        "I03",
+        "I06",
+        "I11",
+        "I12",
+        "I14",
+        "I18",
+        "I20"
+      ],
+      "milestone": "M1",
+      "document": "program/work-packages/P02.md",
+      "qualification_kind": "runtime"
+    },
+    {
+      "id": "P03",
+      "title": "Managed workspace branches and promotion",
+      "depends_on": [
+        "P02"
+      ],
+      "experiences": [
+        "E01",
+        "E08"
+      ],
+      "invariants": [
+        "I04",
+        "I05",
+        "I06",
+        "I08",
+        "I09",
+        "I14",
+        "I20"
+      ],
+      "milestone": "M1",
+      "document": "program/work-packages/P03.md",
+      "qualification_kind": "runtime"
+    },
+    {
+      "id": "P04",
+      "title": "Durable local jobs and effect reconciliation",
+      "depends_on": [
+        "P02"
+      ],
+      "experiences": [
+        "E02",
+        "E04",
+        "E08"
+      ],
+      "invariants": [
+        "I01",
+        "I03",
+        "I04",
+        "I07",
+        "I08",
+        "I09",
+        "I12",
+        "I20"
+      ],
+      "milestone": "M1",
+      "document": "program/work-packages/P04.md",
+      "qualification_kind": "runtime"
+    },
+    {
+      "id": "P05",
+      "title": "Human workspace shell and intervention",
+      "depends_on": [
+        "P03",
+        "P04"
+      ],
+      "experiences": [
+        "E01",
+        "E02",
+        "E04",
+        "E05",
+        "E08"
+      ],
+      "invariants": [
+        "I01",
+        "I07",
+        "I08",
+        "I09",
+        "I14",
+        "I19",
+        "I20"
+      ],
+      "milestone": "M1",
+      "document": "program/work-packages/P05.md",
+      "qualification_kind": "runtime"
+    },
+    {
+      "id": "P06",
+      "title": "Adaptive AI planning with governed context",
+      "depends_on": [
+        "P05"
+      ],
+      "experiences": [
+        "E04",
+        "E05",
+        "E09"
+      ],
+      "invariants": [
+        "I01",
+        "I02",
+        "I03",
+        "I04",
+        "I08",
+        "I11",
+        "I12",
+        "I13",
+        "I14",
+        "I16",
+        "I18",
+        "I20"
+      ],
+      "milestone": "M2",
+      "document": "program/work-packages/P06.md",
+      "qualification_kind": "runtime"
+    },
+    {
+      "id": "P07",
+      "title": "Safe generated views and compositions",
+      "depends_on": [
+        "P06"
+      ],
+      "experiences": [
+        "E03",
+        "E09"
+      ],
+      "invariants": [
+        "I01",
+        "I09",
+        "I11",
+        "I13",
+        "I14",
+        "I16",
+        "I18",
+        "I20"
+      ],
+      "milestone": "M2",
+      "document": "program/work-packages/P07.md",
+      "qualification_kind": "runtime"
+    },
+    {
+      "id": "P08",
+      "title": "Causal artifacts, knowledge and controlled memory",
+      "depends_on": [
+        "P04",
+        "P05"
+      ],
+      "experiences": [
+        "E05",
+        "E08",
+        "E09"
+      ],
+      "invariants": [
+        "I08",
+        "I09",
+        "I11",
+        "I13",
+        "I16",
+        "I19",
+        "I20"
+      ],
+      "milestone": "M2",
+      "document": "program/work-packages/P08.md",
+      "qualification_kind": "runtime"
+    },
+    {
+      "id": "P09",
+      "title": "Demonstration to bounded reusable procedure",
+      "depends_on": [
+        "P07",
+        "P08"
+      ],
+      "experiences": [
+        "E03",
+        "E06",
+        "E09"
+      ],
+      "invariants": [
+        "I01",
+        "I09",
+        "I11",
+        "I13",
+        "I14",
+        "I16",
+        "I17",
+        "I19",
+        "I20"
+      ],
+      "milestone": "M2",
+      "document": "program/work-packages/P09.md",
+      "qualification_kind": "runtime"
+    },
+    {
+      "id": "P10",
+      "title": "Federation with explicit authority and fencing",
+      "depends_on": [
+        "P03",
+        "P04",
+        "P08"
+      ],
+      "experiences": [
+        "E02",
+        "E04",
+        "E05",
+        "E07"
+      ],
+      "invariants": [
+        "I01",
+        "I02",
+        "I03",
+        "I04",
+        "I07",
+        "I08",
+        "I10",
+        "I11",
+        "I12",
+        "I13",
+        "I16",
+        "I18",
+        "I19",
+        "I20"
+      ],
+      "milestone": "M4",
+      "document": "program/work-packages/P10.md",
+      "qualification_kind": "runtime"
+    },
+    {
+      "id": "P11",
+      "title": "Reference distribution, updates and recovery",
+      "depends_on": [
+        "P03",
+        "P04",
+        "P05"
+      ],
+      "experiences": [
+        "E01",
+        "E08",
+        "E10"
+      ],
+      "invariants": [
+        "I05",
+        "I06",
+        "I07",
+        "I09",
+        "I11",
+        "I15",
+        "I16",
+        "I18",
+        "I19",
+        "I20"
+      ],
+      "milestone": "M3",
+      "document": "program/work-packages/P11.md",
+      "qualification_kind": "runtime"
+    },
+    {
+      "id": "P12",
+      "title": "Qualified accelerator and local-inference profiles",
+      "depends_on": [
+        "P06",
+        "P11"
+      ],
+      "experiences": [
+        "E08",
+        "E09",
+        "E10"
+      ],
+      "invariants": [
+        "I01",
+        "I09",
+        "I11",
+        "I12",
+        "I13",
+        "I15",
+        "I16",
+        "I18",
+        "I20"
+      ],
+      "milestone": "M5",
+      "document": "program/work-packages/P12.md",
+      "qualification_kind": "runtime"
+    },
+    {
+      "id": "P13",
+      "title": "Qualified RobotMind ecosystem adapters",
+      "depends_on": [
+        "P04",
+        "P06",
+        "P08"
+      ],
+      "experiences": [
+        "E02",
+        "E03",
+        "E04",
+        "E05",
+        "E09"
+      ],
+      "invariants": [
+        "I01",
+        "I02",
+        "I03",
+        "I04",
+        "I07",
+        "I08",
+        "I11",
+        "I12",
+        "I13",
+        "I14",
+        "I16",
+        "I18",
+        "I19",
+        "I20"
+      ],
+      "milestone": "M6",
+      "document": "program/work-packages/P13.md",
+      "qualification_kind": "runtime"
+    },
+    {
+      "id": "P14",
+      "title": "Independent integration and profile release qualification",
+      "depends_on": [
+        "P05"
+      ],
+      "experiences": [
+        "E01",
+        "E02",
+        "E03",
+        "E04",
+        "E05",
+        "E06",
+        "E07",
+        "E08",
+        "E09",
+        "E10"
+      ],
+      "invariants": [
+        "I01",
+        "I02",
+        "I03",
+        "I04",
+        "I05",
+        "I06",
+        "I07",
+        "I08",
+        "I09",
+        "I10",
+        "I11",
+        "I12",
+        "I13",
+        "I14",
+        "I15",
+        "I16",
+        "I17",
+        "I18",
+        "I19",
+        "I20"
+      ],
+      "milestone": "M7",
+      "document": "program/work-packages/P14.md",
+      "qualification_kind": "engineering"
+    }
+  ],
+  "milestones": [
+    {
+      "id": "M0",
+      "title": "Specification scaffold",
+      "requires": [],
+      "claim": "Internal specification checks only; no runtime or OS capability."
+    },
+    {
+      "id": "M1",
+      "title": "Useful local managed workspace",
+      "requires": [
+        "P00",
+        "P01",
+        "P02",
+        "P03",
+        "P04",
+        "P05"
+      ],
+      "claim": "Real local bounded work, branch/promotion, durable execution and human interfaces on the declared tuple."
+    },
+    {
+      "id": "M2",
+      "title": "Adaptive AI and reusable capabilities",
+      "requires": [
+        "P06",
+        "P07",
+        "P08",
+        "P09"
+      ],
+      "claim": "Real model-driven adaptive work, generated views, controlled memory and validated procedures."
+    },
+    {
+      "id": "M3",
+      "title": "Reference distribution",
+      "requires": [
+        "P11"
+      ],
+      "claim": "Pinned installable image and supported update/backup/recovery path."
+    },
+    {
+      "id": "M4",
+      "title": "Federated workspace",
+      "requires": [
+        "P10"
+      ],
+      "claim": "Two-node work/resource cooperation under declared authority and partition semantics."
+    },
+    {
+      "id": "M5",
+      "title": "Accelerator profile",
+      "requires": [
+        "P12"
+      ],
+      "claim": "Exactly the declared hardware/toolchain/model tuple."
+    },
+    {
+      "id": "M6",
+      "title": "RobotMind adapters",
+      "requires": [
+        "P13"
+      ],
+      "claim": "Only named, independently qualified real ecosystem adapters."
+    },
+    {
+      "id": "M7",
+      "title": "Named profile release",
+      "requires": [
+        "P14"
+      ],
+      "claim": "P14 process implemented and a named profile independently qualified; no blanket whole-roadmap release."
+    }
+  ],
+  "release_profiles": [
+    {
+      "id": "local-runtime",
+      "title": "Local managed runtime",
+      "requires": [
+        "P00",
+        "P01",
+        "P02",
+        "P03",
+        "P04",
+        "P05"
+      ],
+      "qualifier_package": "P14",
+      "experiences": [
+        "E01",
+        "E02",
+        "E04",
+        "E08"
+      ],
+      "invariants": [
+        "I01",
+        "I02",
+        "I03",
+        "I04",
+        "I05",
+        "I06",
+        "I07",
+        "I08",
+        "I09",
+        "I11",
+        "I12",
+        "I14",
+        "I16",
+        "I18",
+        "I19",
+        "I20"
+      ],
+      "claim": "Managed local scope on one declared Linux tuple; runtime/data lifecycle checks required without image/bootloader claims."
+    },
+    {
+      "id": "adaptive-ai",
+      "title": "Adaptive AI on the local runtime",
+      "requires": [
+        "P00",
+        "P01",
+        "P02",
+        "P03",
+        "P04",
+        "P05",
+        "P06"
+      ],
+      "qualifier_package": "P14",
+      "experiences": [
+        "E01",
+        "E02",
+        "E04",
+        "E08",
+        "E09"
+      ],
+      "invariants": [
+        "I01",
+        "I02",
+        "I03",
+        "I04",
+        "I05",
+        "I06",
+        "I07",
+        "I08",
+        "I09",
+        "I11",
+        "I12",
+        "I13",
+        "I14",
+        "I16",
+        "I18",
+        "I19",
+        "I20"
+      ],
+      "claim": "Real named model/provider with governed context and adaptive work; generated views and learned procedures are excluded until qualified."
+    },
+    {
+      "id": "ai-workspace",
+      "title": "AI workspace with reusable views and procedures",
+      "requires": [
+        "P00",
+        "P01",
+        "P02",
+        "P03",
+        "P04",
+        "P05",
+        "P06",
+        "P07",
+        "P08",
+        "P09"
+      ],
+      "qualifier_package": "P14",
+      "experiences": [
+        "E01",
+        "E02",
+        "E03",
+        "E04",
+        "E05",
+        "E06",
+        "E08",
+        "E09"
+      ],
+      "invariants": [
+        "I01",
+        "I02",
+        "I03",
+        "I04",
+        "I05",
+        "I06",
+        "I07",
+        "I08",
+        "I09",
+        "I11",
+        "I12",
+        "I13",
+        "I14",
+        "I16",
+        "I17",
+        "I18",
+        "I19",
+        "I20"
+      ],
+      "claim": "Real adaptive AI plus constrained generated views, controlled memory and bounded learned procedures."
+    },
+    {
+      "id": "reference-distribution",
+      "title": "NixOS reference distribution",
+      "requires": [
+        "P00",
+        "P01",
+        "P02",
+        "P03",
+        "P04",
+        "P05",
+        "P11"
+      ],
+      "qualifier_package": "P14",
+      "experiences": [
+        "E01",
+        "E02",
+        "E04",
+        "E08",
+        "E10"
+      ],
+      "invariants": [
+        "I01",
+        "I02",
+        "I03",
+        "I04",
+        "I05",
+        "I06",
+        "I07",
+        "I08",
+        "I09",
+        "I11",
+        "I12",
+        "I14",
+        "I15",
+        "I16",
+        "I18",
+        "I19",
+        "I20"
+      ],
+      "claim": "Declared image/boot/install/update/recovery tuple; AI is not required for this profile."
+    },
+    {
+      "id": "federated",
+      "title": "Two-node managed federation",
+      "requires": [
+        "P00",
+        "P01",
+        "P02",
+        "P03",
+        "P04",
+        "P05",
+        "P08",
+        "P10"
+      ],
+      "qualifier_package": "P14",
+      "experiences": [
+        "E01",
+        "E02",
+        "E04",
+        "E05",
+        "E07",
+        "E08"
+      ],
+      "invariants": [
+        "I01",
+        "I02",
+        "I03",
+        "I04",
+        "I05",
+        "I06",
+        "I07",
+        "I08",
+        "I09",
+        "I10",
+        "I11",
+        "I12",
+        "I13",
+        "I14",
+        "I16",
+        "I18",
+        "I19",
+        "I20"
+      ],
+      "claim": "Declared two-node topology and fenceable operations; no arbitrary process migration or universal external fencing."
+    },
+    {
+      "id": "accelerated-ai",
+      "title": "Named accelerator AI profile",
+      "requires": [
+        "P00",
+        "P01",
+        "P02",
+        "P03",
+        "P04",
+        "P05",
+        "P06",
+        "P11",
+        "P12"
+      ],
+      "qualifier_package": "P14",
+      "experiences": [
+        "E01",
+        "E02",
+        "E04",
+        "E08",
+        "E09",
+        "E10"
+      ],
+      "invariants": [
+        "I01",
+        "I02",
+        "I03",
+        "I04",
+        "I05",
+        "I06",
+        "I07",
+        "I08",
+        "I09",
+        "I11",
+        "I12",
+        "I13",
+        "I14",
+        "I15",
+        "I16",
+        "I18",
+        "I19",
+        "I20"
+      ],
+      "claim": "Named physical accelerator, driver/runtime and model build; other accelerators remain unqualified."
+    },
+    {
+      "id": "robotmind-adapters",
+      "title": "Named RobotMind adapters",
+      "requires": [
+        "P00",
+        "P01",
+        "P02",
+        "P03",
+        "P04",
+        "P05",
+        "P06",
+        "P08",
+        "P13"
+      ],
+      "qualifier_package": "P14",
+      "experiences": [
+        "E02",
+        "E04",
+        "E05",
+        "E08",
+        "E09"
+      ],
+      "invariants": [
+        "I01",
+        "I02",
+        "I03",
+        "I04",
+        "I05",
+        "I06",
+        "I07",
+        "I08",
+        "I09",
+        "I11",
+        "I12",
+        "I13",
+        "I14",
+        "I16",
+        "I18",
+        "I19",
+        "I20"
+      ],
+      "claim": "Only adapters enumerated with real provider revision/environment evidence; generated views require their separate gate."
+    }
+  ]
+}

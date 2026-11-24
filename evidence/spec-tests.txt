@@ -1,0 +1,34 @@
+Scope: specification checker unit tests only; no NexOS runtime qualification.
+Command: python3 -m unittest discover -s scripts/tests -v
+
+test_active_state_cannot_use_template (test_specification.SpecificationChecks.test_active_state_cannot_use_template) ... ok
+test_asymmetric_traceability_rejected (test_specification.SpecificationChecks.test_asymmetric_traceability_rejected) ... ok
+test_blocked_without_reason_rejected (test_specification.SpecificationChecks.test_blocked_without_reason_rejected) ... ok
+test_dependency_cycle_rejected (test_specification.SpecificationChecks.test_dependency_cycle_rejected) ... ok
+test_duplicate_json_key_rejected (test_specification.SpecificationChecks.test_duplicate_json_key_rejected) ... ok
+test_duplicate_package_rejected (test_specification.SpecificationChecks.test_duplicate_package_rejected) ... ok
+test_evidence_path_cannot_escape_repository (test_specification.SpecificationChecks.test_evidence_path_cannot_escape_repository) ... ok
+test_fixture_expectations (test_specification.SpecificationChecks.test_fixture_expectations) ... ok
+test_milestone_scope_resolves_packages (test_specification.SpecificationChecks.test_milestone_scope_resolves_packages) ... ok
+test_minimal_true_flags_are_not_evidence (test_specification.SpecificationChecks.test_minimal_true_flags_are_not_evidence) ... ok
+test_nonfinite_json_number_rejected (test_specification.SpecificationChecks.test_nonfinite_json_number_rejected) ... ok
+test_nonlocal_schema_reference_rejected_without_fetch (test_specification.SpecificationChecks.test_nonlocal_schema_reference_rejected_without_fetch) ... ok
+test_p00_can_use_scoped_spec_evidence_without_runtime_claim (test_specification.SpecificationChecks.test_p00_can_use_scoped_spec_evidence_without_runtime_claim) ... ok
+test_prepare_has_no_client_digest_or_approval (test_specification.SpecificationChecks.test_prepare_has_no_client_digest_or_approval) ... ok
+test_profile_missing_dependency_rejected (test_specification.SpecificationChecks.test_profile_missing_dependency_rejected) ... ok
+test_program_metadata_rejects_global_qualification (test_specification.SpecificationChecks.test_program_metadata_rejects_global_qualification) ... ok
+test_qualified_package_without_evidence_rejected (test_specification.SpecificationChecks.test_qualified_package_without_evidence_rejected) ... ok
+test_qualified_profile_requires_qualified_dependencies (test_specification.SpecificationChecks.test_qualified_profile_requires_qualified_dependencies) ... ok
+test_runtime_evidence_cannot_cover_unrelated_package (test_specification.SpecificationChecks.test_runtime_evidence_cannot_cover_unrelated_package) ... ok
+test_schema_depth_is_bounded (test_specification.SpecificationChecks.test_schema_depth_is_bounded) ... ok
+test_specification_evidence_cannot_qualify (test_specification.SpecificationChecks.test_specification_evidence_cannot_qualify) ... ok
+test_unknown_dependency_rejected (test_specification.SpecificationChecks.test_unknown_dependency_rejected) ... ok
+test_unknown_scope_id_rejected (test_specification.SpecificationChecks.test_unknown_scope_id_rejected) ... ok
+test_view_query_cannot_mask_fixture_mutation (test_specification.SpecificationChecks.test_view_query_cannot_mask_fixture_mutation) ... ok
+
+----------------------------------------------------------------------
+Ran 24 tests in 0.056s
+
+OK
+
+Exit code: 0

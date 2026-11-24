@@ -1,0 +1,2458 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.nexos.invalid/0.1.0/nexos.schema.json",
+  "title": "NexOS proposed semantic contracts",
+  "description": "Local pre-stable specification. The .invalid identifier is not a hosted schema endpoint. Shape validation does not confer authority or runtime qualification.",
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^urn:nexos:[a-z][a-z0-9_-]*:[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+    },
+    "digest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "counter": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d{1,9})?Z$"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)$"
+    },
+    "artifact_ref": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^urn:nexos:artifact:[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+        },
+        "digest": {
+          "$ref": "#/$defs/digest"
+        },
+        "media_type": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        }
+      },
+      "required": [
+        "id",
+        "digest",
+        "media_type"
+      ],
+      "additionalProperties": false
+    },
+    "capability_binding": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^urn:nexos:capability:[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+        },
+        "version": {
+          "$ref": "#/$defs/version"
+        },
+        "manifest_digest": {
+          "$ref": "#/$defs/digest"
+        }
+      },
+      "required": [
+        "id",
+        "version",
+        "manifest_digest"
+      ],
+      "additionalProperties": false
+    },
+    "precondition": {
+      "type": "object",
+      "properties": {
+        "resource_id": {
+          "type": "string",
+          "pattern": "^urn:nexos:resource:[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+        },
+        "expected_revision": {
+          "$ref": "#/$defs/counter"
+        }
+      },
+      "required": [
+        "resource_id",
+        "expected_revision"
+      ],
+      "additionalProperties": false
+    },
+    "effects": {
+      "type": "object",
+      "properties": {
+        "mutation": {
+          "enum": [
+            "none",
+            "managed_data",
+            "host_system",
+            "external_system",
+            "physical"
+          ]
+        },
+        "disclosure": {
+          "enum": [
+            "none",
+            "local_only",
+            "named_destinations"
+          ]
+        },
+        "reversibility": {
+          "enum": [
+            "not_applicable",
+            "reversible",
+            "compensatable",
+            "irreversible"
+          ]
+        },
+        "idempotency": {
+          "enum": [
+            "intrinsic",
+            "provider_key",
+            "none"
+          ]
+        },
+        "reconciliation": {
+          "enum": [
+            "supported",
+            "unsupported"
+          ]
+        },
+        "cost": {
+          "enum": [
+            "enforced_limit",
+            "bounded_estimate",
+            "unknown"
+          ]
+        }
+      },
+      "required": [
+        "mutation",
+        "disclosure",
+        "reversibility",
+        "idempotency",
+        "reconciliation",
+        "cost"
+      ],
+      "additionalProperties": false
+    },
+    "budget_allocation": {
+      "type": "object",
+      "properties": {
+        "budget_id": {
+          "type": "string",
+          "pattern": "^urn:nexos:budget:[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+        },
+        "unit": {
+          "enum": [
+            "tokens",
+            "bytes",
+            "milliseconds",
+            "minor_units"
+          ]
+        },
+        "ceiling": {
+          "$ref": "#/$defs/counter"
+        },
+        "enforcement": {
+          "enum": [
+            "hard",
+            "estimate"
+          ]
+        },
+        "currency": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[A-Z]{3}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "minor_unit_exponent": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 6
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "budget_id",
+        "unit",
+        "ceiling",
+        "enforcement",
+        "currency",
+        "minor_unit_exponent"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "unit": {
+                "const": "minor_units"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "currency": {
+                "type": "string",
+                "pattern": "^[A-Z]{3}$"
+              },
+              "minor_unit_exponent": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 6
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "currency": {
+                "type": "null"
+              },
+              "minor_unit_exponent": {
+                "type": "null"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "capability": {
+      "type": "object",
+      "properties": {
+        "schema_version": {
+          "const": "0.1.0"
+        },
+        "kind": {
+          "const": "capability"
+        },
+        "id": {
+          "type": "string",
+          "pattern": "^urn:nexos:capability:[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+        },
+        "version": {
+          "$ref": "#/$defs/version"
+        },
+        "provider_id": {
+          "type": "string",
+          "pattern": "^urn:nexos:provider:[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+        },
+        "provider_build_digest": {
+          "$ref": "#/$defs/digest"
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "input_schema": {
+          "type": "object"
+        },
+        "output_schema": {
+          "type": "object"
+        },
+        "effects": {
+          "$ref": "#/$defs/effects"
+        },
+        "required_operation": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100
+        },
+        "idempotency_window_ms": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/counter"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "reconciliation_capability": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/capability_binding"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "requested_profiles": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100
+          },
+          "minItems": 0,
+          "maxItems": 16,
+          "uniqueItems": true
+        },
+        "recovery_contract": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/recovery_contract"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "schema_version",
+        "kind",
+        "id",
+        "version",
+        "provider_id",
+        "provider_build_digest",
+        "title",
+        "input_schema",
+        "output_schema",
+        "effects",
+        "required_operation",
+        "requested_profiles",
+        "idempotency_window_ms",
+        "reconciliation_capability",
+        "recovery_contract"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "effects": {
+                "properties": {
+                  "idempotency": {
+                    "const": "provider_key"
+                  }
+                }
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "idempotency_window_ms": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 9007199254740991
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "effects": {
+                "properties": {
+                  "reconciliation": {
+                    "const": "supported"
+                  }
+                }
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "reconciliation_capability": {
+                "$ref": "#/$defs/capability_binding"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "effects": {
+                "properties": {
+                  "reversibility": {
+                    "enum": [
+                      "reversible",
+                      "compensatable"
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "recovery_contract": {
+                "$ref": "#/$defs/recovery_contract"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "grant": {
+      "type": "object",
+      "properties": {
+        "schema_version": {
+          "const": "0.1.0"
+        },
+        "kind": {
+          "const": "grant"
+        },
+        "id": {
+          "type": "string",
+          "pattern": "^urn:nexos:grant:[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+        },
+        "issuer_id": {
+          "type": "string",
+          "pattern": "^urn:nexos:principal:[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+        },
+        "subject_id": {
+          "type": "string",
+          "pattern": "^urn:nexos:principal:[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+        },
+        "workspace_id": {
+          "type": "string",
+          "pattern": "^urn:nexos:workspace:[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+        },
+        "parent_grant_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^urn:nexos:grant:[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "not_before": {
+          "$ref": "#/$defs/timestamp"
+        },
+        "expires_at": {
+          "$ref": "#/$defs/timestamp"
+        },
+        "authority_epoch": {
+          "$ref": "#/$defs/counter"
+        },
+        "delegation_depth": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 16
+        },
+        "budget_allocations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/budget_allocation"
+          },
+          "minItems": 0,
+          "maxItems": 32
+        },
+        "rules": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/grant_rule"
+          },
+          "minItems": 1,
+          "maxItems": 128
+        },
+        "authority_incarnation_id": {
+          "type": "string",
+          "pattern": "^urn:nexos:authority:[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+        }
+      },
+      "required": [
+        "schema_version",
+        "kind",
+        "id",
+        "issuer_id",
+        "subject_id",
+        "workspace_id",
+        "parent_grant_id",
+        "not_before",
+        "expires_at",
+        "authority_epoch",
+        "delegation_depth",
+        "budget_allocations",
+        "rules",
+        "authority_incarnation_id"
+      ],
+      "additionalProperties": false
+    },
+    "invocation": {
+      "type": "object",
+      "properties": {
+        "schema_version": {
+          "const": "0.1.0"
+        },
+        "kind": {
+          "const": "invocation"
+        },
+        "id": {
+          "type": "string",
+          "pattern": "^urn:nexos:invocation:[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+        },
+        "workspace_id": {
+          "type": "string",
+          "pattern": "^urn:nexos:workspace:[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+        },
+        "task_id": {
+          "type": "string",
+          "pattern": "^urn:nexos:task:[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+        },
+        "principal_id": {
+          "type": "string",
+          "pattern": "^urn:nexos:principal:[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+        },
+        "grant_id": {
+          "type": "string",
+          "pattern": "^urn:nexos:grant:[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+        },
+        "authority_epoch": {
+          "$ref": "#/$defs/counter"
+        },
+        "action_digest": {
+          "$ref": "#/$defs/digest"
+        },
+        "approval_receipt_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^urn:nexos:approval:[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "idempotency_key": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "deadline": {
+          "$ref": "#/$defs/timestamp"
+        },
+        "authority_incarnation_id": {
+          "type": "string",
+          "pattern": "^urn:nexos:authority:[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+        },
+        "prepared_action_id": {
+          "type": "string",
+          "pattern": "^urn:nexos:action:[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+        }
+      },
+      "required": [
+        "schema_version",
+        "kind",
+        "id",
+        "workspace_id",
+        "task_id",
+        "principal_id",
+        "grant_id",
+        "authority_epoch",
+        "action_digest",
+        "approval_receipt_id",
+        "idempotency_key",
+        "deadline",
+        "authority_incarnation_id",
+        "prepared_action_id"
+      ],
+      "additionalProperties": false
+    },
+    "receipt": {
+      "type": "object",
+      "properties": {
+        "schema_version": {
+          "const": "0.1.0"
+        },
+        "kind": {
+          "const": "effect_receipt"
+        },
+        "id": {
+          "type": "string",
+          "pattern": "^urn:nexos:receipt:[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+        },
+        "invocation_id": {
+          "type": "string",
+          "pattern": "^urn:nexos:invocation:[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+        },
+        "attempt_id": {
+          "type": "string",
+          "pattern": "^urn:nexos:attempt:[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+        },
+        "effect_index": {
+          "$ref": "#/$defs/counter"
+        },
+        "principal_id": {
+          "type": "string",
+          "pattern": "^urn:nexos:principal:[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+        },
+        "grant_id": {
+          "type": "string",
+          "pattern": "^urn:nexos:grant:[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+        },
+        "provider_id": {
+          "type": "string",
+          "pattern": "^urn:nexos:provider:[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+        },
+        "provider_build_digest": {
+          "$ref": "#/$defs/digest"
+        },
+        "authority_epoch": {
+          "$ref": "#/$defs/counter"
+        },
+        "action_digest": {
+          "$ref": "#/$defs/digest"
+        },
+        "observed_at": {
+          "$ref": "#/$defs/timestamp"
+        },
+        "outcome": {
+          "enum": [
+            "not_applied",
+            "applied",
+            "unknown"
+          ]
+        },
+        "result_artifacts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/artifact_ref"
+          },
+          "minItems": 0,
+          "maxItems": 128
+        },
+        "evidence_artifacts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/artifact_ref"
+          },
+          "minItems": 0,
+          "maxItems": 128
+        },
+        "reconciliation_required": {
+          "type": "boolean"
+        },
+        "related_receipt_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^urn:nexos:receipt:[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+          },
+          "minItems": 0,
+          "maxItems": 128,
+          "uniqueItems": true
+        },
+        "authority_incarnation_id": {
+          "type": "string",
+          "pattern": "^urn:nexos:authority:[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+        },
+        "dispatch_record_id": {
+          "type": "string",
+          "pattern": "^urn:nexos:dispatch:[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+        },
+        "usage_record_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^urn:nexos:usage:[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+          },
+          "minItems": 0,
+          "maxItems": 128
+        }
+      },
+      "required": [
+        "schema_version",
+        "kind",
+        "id",
+        "invocation_id",
+        "attempt_id",
+        "effect_index",
+        "principal_id",
+        "grant_id",
+        "provider_id",
+        "provider_build_digest",
+        "authority_epoch",
+        "action_digest",
+        "observed_at",
+        "outcome",
+        "result_artifacts",
+        "evidence_artifacts",
+        "reconciliation_required",
+        "related_receipt_ids",
+        "authority_incarnation_id",
+        "dispatch_record_id",
+        "usage_record_ids"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "outcome": {
+                "const": "unknown"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "reconciliation_required": {
+                "const": true
+              },
+              "result_artifacts": {
+                "maxItems": 0
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "reconciliation_required": {
+                "const": false
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "outcome": {
+                "const": "not_applied"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "result_artifacts": {
+                "maxItems": 0
+              }
+            }
+          }
+        }
+      ]
+    },
+    "context_item": {
+      "type": "object",
+      "properties": {
+        "resource_id": {
+          "type": "string",
+          "pattern": "^urn:nexos:resource:[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+        },
+        "source_revision": {
+          "$ref": "#/$defs/counter"
+        },
+        "content_digest": {
+          "$ref": "#/$defs/digest"
+        },
+        "classification": {
+          "enum": [
+            "public",
+            "workspace_private",
+            "restricted"
+          ]
+        },
+        "evidence_kind": {
+          "enum": [
+            "observation",
+            "assertion",
+            "inference"
+          ]
+        },
+        "observed_at": {
+          "$ref": "#/$defs/timestamp"
+        },
+        "valid_until": {
+          "$ref": "#/$defs/timestamp"
+        },
+        "reader_grant_id": {
+          "type": "string",
+          "pattern": "^urn:nexos:grant:[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+        },
+        "purpose": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "disclosure_target_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^urn:nexos:resource:[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+          },
+          "minItems": 0,
+          "maxItems": 64,
+          "uniqueItems": true
+        },
+        "retention_policy_id": {
+          "type": "string",
+          "pattern": "^urn:nexos:policy:[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+        },
+        "freshness_status": {
+          "enum": [
+            "current",
+            "historical",
+            "stale_allowed"
+          ]
+        },
+        "freshness_note": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 1024
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "resource_id",
+        "source_revision",
+        "content_digest",
+        "classification",
+        "evidence_kind",
+        "observed_at",
+        "valid_until",
+        "reader_grant_id",
+        "purpose",
+        "disclosure_target_ids",
+        "retention_policy_id",
+        "freshness_status",
+        "freshness_note"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "freshness_status": {
+                "enum": [
+                  "historical",
+                  "stale_allowed"
+                ]
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "freshness_note": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 1024
+              }
+            }
+          }
+        }
+      ]
+    },
+    "context_manifest": {
+      "type": "object",
+      "properties": {
+        "schema_version": {
+          "const": "0.1.0"
+        },
+        "kind": {
+          "const": "context_manifest"
+        },
+        "id": {
+          "type": "string",
+          "pattern": "^urn:nexos:context:[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+        },
+        "workspace_id": {
+          "type": "string",
+          "pattern": "^urn:nexos:workspace:[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+        },
+        "task_id": {
+          "type": "string",
+          "pattern": "^urn:nexos:task:[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+        },
+        "principal_id": {
+          "type": "string",
+          "pattern": "^urn:nexos:principal:[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+        },
+        "model_destination_id": {
+          "type": "string",
+          "pattern": "^urn:nexos:resource:[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+        },
+        "prepared_at": {
+          "$ref": "#/$defs/timestamp"
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/context_item"
+          },
+          "minItems": 0,
+          "maxItems": 512
+        },
+        "token_budget": {
+          "$ref": "#/$defs/counter"
+        },
+        "estimated_tokens": {
+          "$ref": "#/$defs/counter"
+        },
+        "contains_untrusted_content": {
+          "const": true
+        },
+        "payload_retention": {
+          "enum": [
+            "none",
+            "policy_scoped"
+          ]
+        }
+      },
+      "required": [
+        "schema_version",
+        "kind",
+        "id",
+        "workspace_id",
+        "task_id",
+        "principal_id",
+        "model_destination_id",
+        "prepared_at",
+        "items",
+        "token_budget",
+        "estimated_tokens",
+        "contains_untrusted_content",
+        "payload_retention"
+      ],
+      "additionalProperties": false
+    },
+    "checkpoint_component": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100
+        },
+        "owner_id": {
+          "$ref": "#/$defs/id"
+        },
+        "artifact": {
+          "$ref": "#/$defs/artifact_ref"
+        },
+        "consistency": {
+          "enum": [
+            "application_consistent",
+            "quiesced",
+            "crash_consistent"
+          ]
+        },
+        "restore_capability": {
+          "$ref": "#/$defs/capability_binding"
+        }
+      },
+      "required": [
+        "name",
+        "owner_id",
+        "artifact",
+        "consistency",
+        "restore_capability"
+      ],
+      "additionalProperties": false
+    },
+    "checkpoint": {
+      "type": "object",
+      "properties": {
+        "schema_version": {
+          "const": "0.1.0"
+        },
+        "kind": {
+          "const": "checkpoint"
+        },
+        "id": {
+          "type": "string",
+          "pattern": "^urn:nexos:checkpoint:[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+        },
+        "task_id": {
+          "type": "string",
+          "pattern": "^urn:nexos:task:[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+        },
+        "workspace_id": {
+          "type": "string",
+          "pattern": "^urn:nexos:workspace:[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+        },
+        "sealed_at": {
+          "$ref": "#/$defs/timestamp"
+        },
+        "environment_profile": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100
+        },
+        "environment_digest": {
+          "$ref": "#/$defs/digest"
+        },
+        "components": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/checkpoint_component"
+          },
+          "minItems": 1,
+          "maxItems": 128
+        },
+        "pending_invocation_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^urn:nexos:invocation:[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+          },
+          "minItems": 0,
+          "maxItems": 1024,
+          "uniqueItems": true
+        },
+        "authority_restore": {
+          "const": "revalidate_current"
+        },
+        "contract_version": {
+          "$ref": "#/$defs/version"
+        }
+      },
+      "required": [
+        "schema_version",
+        "kind",
+        "id",
+        "task_id",
+        "workspace_id",
+        "sealed_at",
+        "environment_profile",
+        "environment_digest",
+        "components",
+        "pending_invocation_ids",
+        "authority_restore",
+        "contract_version"
+      ],
+      "additionalProperties": false
+    },
+    "view_binding": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100
+        },
+        "mode": {
+          "enum": [
+            "query",
+            "action"
+          ]
+        },
+        "capability": {
+          "$ref": "#/$defs/capability_binding"
+        },
+        "input": {
+          "type": "object"
+        }
+      },
+      "required": [
+        "id",
+        "mode",
+        "capability",
+        "input"
+      ],
+      "additionalProperties": false
+    },
+    "view_component": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100
+        },
+        "component": {
+          "enum": [
+            "heading",
+            "text",
+            "table",
+            "timeline",
+            "form",
+            "action"
+          ]
+        },
+        "label": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "binding_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 100
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "component",
+        "label",
+        "binding_id"
+      ],
+      "additionalProperties": false
+    },
+    "view": {
+      "type": "object",
+      "properties": {
+        "schema_version": {
+          "const": "0.1.0"
+        },
+        "kind": {
+          "const": "view"
+        },
+        "id": {
+          "type": "string",
+          "pattern": "^urn:nexos:view:[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+        },
+        "workspace_id": {
+          "type": "string",
+          "pattern": "^urn:nexos:workspace:[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+        },
+        "revision": {
+          "$ref": "#/$defs/counter"
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "components": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/view_component"
+          },
+          "minItems": 1,
+          "maxItems": 128
+        },
+        "bindings": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/view_binding"
+          },
+          "minItems": 0,
+          "maxItems": 128
+        },
+        "renderer_profile": {
+          "const": "declarative-v0"
+        },
+        "trusted_authorization_ui": {
+          "const": false
+        }
+      },
+      "required": [
+        "schema_version",
+        "kind",
+        "id",
+        "workspace_id",
+        "revision",
+        "title",
+        "components",
+        "bindings",
+        "renderer_profile",
+        "trusted_authorization_ui"
+      ],
+      "additionalProperties": false
+    },
+    "evidence_command": {
+      "type": "object",
+      "properties": {
+        "argv": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2048
+          },
+          "minItems": 1,
+          "maxItems": 128
+        },
+        "cwd": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1024
+        },
+        "exit_code": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 255
+        },
+        "expected_exit_code": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 255
+        },
+        "output_artifact": {
+          "$ref": "#/$defs/artifact_ref"
+        }
+      },
+      "required": [
+        "argv",
+        "cwd",
+        "exit_code",
+        "expected_exit_code",
+        "output_artifact"
+      ],
+      "additionalProperties": false
+    },
+    "evidence": {
+      "type": "object",
+      "properties": {
+        "schema_version": {
+          "const": "0.1.0"
+        },
+        "kind": {
+          "const": "qualification_evidence"
+        },
+        "id": {
+          "type": "string",
+          "pattern": "^urn:nexos:evidence:[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+        },
+        "example_only": {
+          "type": "boolean"
+        },
+        "validation_kind": {
+          "enum": [
+            "specification",
+            "unit",
+            "integration",
+            "runtime_vm",
+            "runtime_hardware",
+            "product_evaluation"
+          ]
+        },
+        "claim": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1024
+        },
+        "subject_digest": {
+          "$ref": "#/$defs/digest"
+        },
+        "repository_commit": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[0-9a-f]{40}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "environment": {
+          "type": "object",
+          "properties": {
+            "profile_id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128
+            },
+            "os_release": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256
+            },
+            "kernel": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128
+            },
+            "architecture": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128
+            },
+            "provider_build_digests": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/digest"
+              },
+              "minItems": 0,
+              "maxItems": 128,
+              "uniqueItems": true
+            },
+            "toolchain_revision": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256
+            }
+          },
+          "required": [
+            "profile_id",
+            "os_release",
+            "kernel",
+            "architecture",
+            "provider_build_digests",
+            "toolchain_revision"
+          ],
+          "additionalProperties": false
+        },
+        "commands": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/evidence_command"
+          },
+          "minItems": 1,
+          "maxItems": 128
+        },
+        "recorded_at": {
+          "$ref": "#/$defs/timestamp"
+        },
+        "result": {
+          "enum": [
+            "passed",
+            "failed",
+            "blocked"
+          ]
+        },
+        "qualifies_runtime": {
+          "type": "boolean"
+        },
+        "verifier_id": {
+          "type": "string",
+          "pattern": "^urn:nexos:principal:[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+        },
+        "limitations": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2048
+          },
+          "minItems": 0,
+          "maxItems": 128
+        },
+        "environment_manifest": {
+          "$ref": "#/$defs/artifact_ref"
+        },
+        "coverage": {
+          "type": "object",
+          "properties": {
+            "packages": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^P[0-9]{2}$"
+              },
+              "maxItems": 256,
+              "uniqueItems": true
+            },
+            "experiences": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^E[0-9]{2}$"
+              },
+              "maxItems": 256,
+              "uniqueItems": true
+            },
+            "invariants": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^I[0-9]{2}$"
+              },
+              "maxItems": 256,
+              "uniqueItems": true
+            },
+            "release_profile_id": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "minLength": 1
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "required": [
+            "packages",
+            "experiences",
+            "invariants",
+            "release_profile_id"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "schema_version",
+        "kind",
+        "id",
+        "example_only",
+        "validation_kind",
+        "claim",
+        "subject_digest",
+        "repository_commit",
+        "environment",
+        "commands",
+        "recorded_at",
+        "result",
+        "qualifies_runtime",
+        "verifier_id",
+        "limitations",
+        "environment_manifest",
+        "coverage"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "anyOf": [
+              {
+                "properties": {
+                  "example_only": {
+                    "const": true
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "validation_kind": {
+                    "enum": [
+                      "specification",
+                      "unit"
+                    ]
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "result": {
+                    "enum": [
+                      "failed",
+                      "blocked"
+                    ]
+                  }
+                }
+              }
+            ]
+          },
+          "then": {
+            "properties": {
+              "qualifies_runtime": {
+                "const": false
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "qualifies_runtime": {
+                "const": true
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "repository_commit": {
+                "type": "string",
+                "pattern": "^[0-9a-f]{40}$"
+              },
+              "environment": {
+                "properties": {
+                  "provider_build_digests": {
+                    "minItems": 1
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "request": {
+      "type": "object",
+      "properties": {
+        "protocol_version": {
+          "const": "0.1.0"
+        },
+        "request_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "method": {
+          "enum": [
+            "session.hello",
+            "capabilities.list",
+            "capabilities.describe",
+            "workspaces.get",
+            "resources.inspect",
+            "invocations.prepare",
+            "invocations.commit",
+            "invocations.get",
+            "receipts.list",
+            "invocations.cancel",
+            "grants.issue",
+            "grants.revoke",
+            "events.subscribe"
+          ]
+        },
+        "params": {
+          "type": "object"
+        }
+      },
+      "required": [
+        "protocol_version",
+        "request_id",
+        "method",
+        "params"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "method": {
+                "const": "invocations.prepare"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "params": {
+                "$ref": "#/$defs/preparation_request"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "method": {
+                "const": "invocations.commit"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "params": {
+                "$ref": "#/$defs/invocation"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "error": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "enum": [
+            "invalid_request",
+            "unsupported_version",
+            "permission_denied",
+            "grant_expired",
+            "grant_revoked",
+            "precondition_conflict",
+            "budget_exhausted",
+            "profile_unavailable",
+            "provider_unavailable",
+            "idempotency_conflict",
+            "outcome_unknown",
+            "result_withheld"
+          ]
+        },
+        "message": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2048
+        },
+        "invocation_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^urn:nexos:invocation:[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "code",
+        "message",
+        "invocation_id"
+      ],
+      "additionalProperties": false
+    },
+    "response": {
+      "type": "object",
+      "properties": {
+        "protocol_version": {
+          "const": "0.1.0"
+        },
+        "request_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "result": {
+          "type": "object"
+        },
+        "error": {
+          "$ref": "#/$defs/error"
+        }
+      },
+      "required": [
+        "protocol_version",
+        "request_id"
+      ],
+      "additionalProperties": false,
+      "oneOf": [
+        {
+          "required": [
+            "result"
+          ],
+          "not": {
+            "required": [
+              "error"
+            ]
+          }
+        },
+        {
+          "required": [
+            "error"
+          ],
+          "not": {
+            "required": [
+              "result"
+            ]
+          }
+        }
+      ]
+    },
+    "grant_rule": {
+      "type": "object",
+      "properties": {
+        "capabilities": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/capability_binding"
+          },
+          "minItems": 1,
+          "maxItems": 128,
+          "uniqueItems": true
+        },
+        "resource_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^urn:nexos:resource:[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+          },
+          "minItems": 1,
+          "maxItems": 1024,
+          "uniqueItems": true
+        },
+        "operations": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100
+          },
+          "minItems": 1,
+          "maxItems": 128,
+          "uniqueItems": true
+        },
+        "disclosure_target_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^urn:nexos:resource:[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+          },
+          "minItems": 0,
+          "maxItems": 128,
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "capabilities",
+        "resource_ids",
+        "operations",
+        "disclosure_target_ids"
+      ],
+      "additionalProperties": false
+    },
+    "recovery_contract": {
+      "type": "object",
+      "properties": {
+        "capability": {
+          "$ref": "#/$defs/capability_binding"
+        },
+        "preconditions": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1024
+          },
+          "minItems": 1,
+          "maxItems": 64
+        },
+        "retention_ms": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "scope": {
+          "enum": [
+            "single_resource",
+            "provider_transaction",
+            "compensation"
+          ]
+        },
+        "limitations": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1024
+          },
+          "minItems": 0,
+          "maxItems": 64
+        }
+      },
+      "required": [
+        "capability",
+        "preconditions",
+        "retention_ms",
+        "scope",
+        "limitations"
+      ],
+      "additionalProperties": false
+    },
+    "target_operation": {
+      "type": "object",
+      "properties": {
+        "resource_id": {
+          "type": "string",
+          "pattern": "^urn:nexos:resource:[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+        },
+        "operation": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100
+        }
+      },
+      "required": [
+        "resource_id",
+        "operation"
+      ],
+      "additionalProperties": false
+    },
+    "preparation_request": {
+      "type": "object",
+      "properties": {
+        "schema_version": {
+          "const": "0.1.0"
+        },
+        "kind": {
+          "const": "preparation_request"
+        },
+        "workspace_id": {
+          "type": "string",
+          "pattern": "^urn:nexos:workspace:[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+        },
+        "task_id": {
+          "type": "string",
+          "pattern": "^urn:nexos:task:[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+        },
+        "principal_id": {
+          "type": "string",
+          "pattern": "^urn:nexos:principal:[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+        },
+        "grant_id": {
+          "type": "string",
+          "pattern": "^urn:nexos:grant:[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+        },
+        "authority_incarnation_id": {
+          "type": "string",
+          "pattern": "^urn:nexos:authority:[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+        },
+        "authority_epoch": {
+          "$ref": "#/$defs/counter"
+        },
+        "branch_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^urn:nexos:branch:[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "capability": {
+          "$ref": "#/$defs/capability_binding"
+        },
+        "input": {
+          "type": "object"
+        },
+        "expected_preconditions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/precondition"
+          },
+          "minItems": 0,
+          "maxItems": 256
+        },
+        "deadline": {
+          "$ref": "#/$defs/timestamp"
+        }
+      },
+      "required": [
+        "schema_version",
+        "kind",
+        "workspace_id",
+        "task_id",
+        "principal_id",
+        "grant_id",
+        "authority_incarnation_id",
+        "authority_epoch",
+        "branch_id",
+        "capability",
+        "input",
+        "expected_preconditions",
+        "deadline"
+      ],
+      "additionalProperties": false
+    },
+    "prepared_action": {
+      "type": "object",
+      "properties": {
+        "schema_version": {
+          "const": "0.1.0"
+        },
+        "kind": {
+          "const": "prepared_action"
+        },
+        "id": {
+          "type": "string",
+          "pattern": "^urn:nexos:action:[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+        },
+        "workspace_id": {
+          "type": "string",
+          "pattern": "^urn:nexos:workspace:[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+        },
+        "task_id": {
+          "type": "string",
+          "pattern": "^urn:nexos:task:[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+        },
+        "principal_id": {
+          "type": "string",
+          "pattern": "^urn:nexos:principal:[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+        },
+        "grant_id": {
+          "type": "string",
+          "pattern": "^urn:nexos:grant:[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+        },
+        "authority_incarnation_id": {
+          "type": "string",
+          "pattern": "^urn:nexos:authority:[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+        },
+        "authority_epoch": {
+          "$ref": "#/$defs/counter"
+        },
+        "branch_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^urn:nexos:branch:[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "capability": {
+          "$ref": "#/$defs/capability_binding"
+        },
+        "provider_build_digest": {
+          "$ref": "#/$defs/digest"
+        },
+        "input": {
+          "type": "object"
+        },
+        "preconditions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/precondition"
+          },
+          "minItems": 0,
+          "maxItems": 256
+        },
+        "target_operations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/target_operation"
+          },
+          "minItems": 1,
+          "maxItems": 256
+        },
+        "effects": {
+          "$ref": "#/$defs/effects"
+        },
+        "disclosure_target_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^urn:nexos:resource:[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+          },
+          "minItems": 0,
+          "maxItems": 128
+        },
+        "budget_allocations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/budget_allocation"
+          },
+          "minItems": 0,
+          "maxItems": 32
+        },
+        "policy_revision": {
+          "$ref": "#/$defs/counter"
+        },
+        "qualification_profile": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100
+        },
+        "prepared_at": {
+          "$ref": "#/$defs/timestamp"
+        },
+        "expires_at": {
+          "$ref": "#/$defs/timestamp"
+        },
+        "deadline": {
+          "$ref": "#/$defs/timestamp"
+        }
+      },
+      "required": [
+        "schema_version",
+        "kind",
+        "id",
+        "workspace_id",
+        "task_id",
+        "principal_id",
+        "grant_id",
+        "authority_incarnation_id",
+        "authority_epoch",
+        "branch_id",
+        "capability",
+        "provider_build_digest",
+        "input",
+        "preconditions",
+        "target_operations",
+        "effects",
+        "disclosure_target_ids",
+        "budget_allocations",
+        "policy_revision",
+        "qualification_profile",
+        "prepared_at",
+        "expires_at",
+        "deadline"
+      ],
+      "additionalProperties": false
+    },
+    "dispatch_target": {
+      "type": "object",
+      "properties": {
+        "resource_id": {
+          "type": "string",
+          "pattern": "^urn:nexos:resource:[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+        },
+        "operation": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100
+        },
+        "enforcement": {
+          "enum": [
+            "revision_cas",
+            "lease_fence",
+            "immutable_read",
+            "bounded_dispatch"
+          ]
+        },
+        "fencing_token": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "lease_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^urn:nexos:lease:[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "exposure_policy_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^urn:nexos:policy:[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "max_inflight": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 1024
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "resource_id",
+        "operation",
+        "enforcement",
+        "fencing_token",
+        "lease_id",
+        "exposure_policy_id",
+        "max_inflight"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "enforcement": {
+                "enum": [
+                  "revision_cas",
+                  "lease_fence"
+                ]
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "fencing_token": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 256
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "enforcement": {
+                "const": "lease_fence"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "lease_id": {
+                "type": "string",
+                "pattern": "^urn:nexos:lease:[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "enforcement": {
+                "const": "bounded_dispatch"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "fencing_token": {
+                "type": "null"
+              },
+              "lease_id": {
+                "type": "null"
+              },
+              "exposure_policy_id": {
+                "type": "string",
+                "pattern": "^urn:nexos:policy:[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+              },
+              "max_inflight": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 1024
+              }
+            }
+          }
+        }
+      ]
+    },
+    "dispatch_record": {
+      "type": "object",
+      "properties": {
+        "schema_version": {
+          "const": "0.1.0"
+        },
+        "kind": {
+          "const": "dispatch_record"
+        },
+        "id": {
+          "type": "string",
+          "pattern": "^urn:nexos:dispatch:[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+        },
+        "invocation_id": {
+          "type": "string",
+          "pattern": "^urn:nexos:invocation:[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+        },
+        "attempt_id": {
+          "type": "string",
+          "pattern": "^urn:nexos:attempt:[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+        },
+        "prepared_action_id": {
+          "type": "string",
+          "pattern": "^urn:nexos:action:[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+        },
+        "action_digest": {
+          "$ref": "#/$defs/digest"
+        },
+        "authority_incarnation_id": {
+          "type": "string",
+          "pattern": "^urn:nexos:authority:[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+        },
+        "authority_epoch": {
+          "$ref": "#/$defs/counter"
+        },
+        "provider_id": {
+          "type": "string",
+          "pattern": "^urn:nexos:provider:[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+        },
+        "provider_build_digest": {
+          "$ref": "#/$defs/digest"
+        },
+        "targets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/dispatch_target"
+          },
+          "minItems": 1,
+          "maxItems": 256
+        },
+        "dispatch_intent_at": {
+          "$ref": "#/$defs/timestamp"
+        },
+        "provider_idempotency_key": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "schema_version",
+        "kind",
+        "id",
+        "invocation_id",
+        "attempt_id",
+        "prepared_action_id",
+        "action_digest",
+        "authority_incarnation_id",
+        "authority_epoch",
+        "provider_id",
+        "provider_build_digest",
+        "targets",
+        "dispatch_intent_at",
+        "provider_idempotency_key"
+      ],
+      "additionalProperties": false
+    },
+    "usage": {
+      "type": "object",
+      "properties": {
+        "schema_version": {
+          "const": "0.1.0"
+        },
+        "kind": {
+          "const": "usage_record"
+        },
+        "id": {
+          "type": "string",
+          "pattern": "^urn:nexos:usage:[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+        },
+        "invocation_id": {
+          "type": "string",
+          "pattern": "^urn:nexos:invocation:[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+        },
+        "reservation_id": {
+          "type": "string",
+          "pattern": "^urn:nexos:reservation:[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+        },
+        "budget_id": {
+          "type": "string",
+          "pattern": "^urn:nexos:budget:[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+        },
+        "unit": {
+          "enum": [
+            "tokens",
+            "bytes",
+            "milliseconds",
+            "minor_units"
+          ]
+        },
+        "amount": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/counter"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "measurement": {
+          "enum": [
+            "measured",
+            "estimated",
+            "unknown"
+          ]
+        },
+        "settlement": {
+          "enum": [
+            "unsettled",
+            "settled",
+            "disputed"
+          ]
+        },
+        "currency": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[A-Z]{3}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "minor_unit_exponent": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 6
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "provider_evidence": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/artifact_ref"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "observed_at": {
+          "$ref": "#/$defs/timestamp"
+        }
+      },
+      "required": [
+        "schema_version",
+        "kind",
+        "id",
+        "invocation_id",
+        "reservation_id",
+        "budget_id",
+        "unit",
+        "amount",
+        "measurement",
+        "settlement",
+        "currency",
+        "minor_unit_exponent",
+        "provider_evidence",
+        "observed_at"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "measurement": {
+                "const": "unknown"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "amount": {
+                "type": "null"
+              },
+              "settlement": {
+                "enum": [
+                  "unsettled",
+                  "disputed"
+                ]
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "amount": {
+                "$ref": "#/$defs/counter"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "unit": {
+                "const": "minor_units"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "currency": {
+                "type": "string",
+                "pattern": "^[A-Z]{3}$"
+              },
+              "minor_unit_exponent": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 6
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "currency": {
+                "type": "null"
+              },
+              "minor_unit_exponent": {
+                "type": "null"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "measurement": {
+                "const": "estimated"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "settlement": {
+                "enum": [
+                  "unsettled",
+                  "disputed"
+                ]
+              }
+            }
+          }
+        }
+      ]
+    }
+  },
+  "oneOf": [
+    {
+      "$ref": "#/$defs/capability"
+    },
+    {
+      "$ref": "#/$defs/grant"
+    },
+    {
+      "$ref": "#/$defs/invocation"
+    },
+    {
+      "$ref": "#/$defs/receipt"
+    },
+    {
+      "$ref": "#/$defs/context_manifest"
+    },
+    {
+      "$ref": "#/$defs/checkpoint"
+    },
+    {
+      "$ref": "#/$defs/view"
+    },
+    {
+      "$ref": "#/$defs/evidence"
+    },
+    {
+      "$ref": "#/$defs/request"
+    },
+    {
+      "$ref": "#/$defs/response"
+    },
+    {
+      "$ref": "#/$defs/preparation_request"
+    },
+    {
+      "$ref": "#/$defs/prepared_action"
+    },
+    {
+      "$ref": "#/$defs/dispatch_record"
+    },
+    {
+      "$ref": "#/$defs/usage"
+    }
+  ]
+}

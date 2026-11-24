@@ -1,0 +1,674 @@
+{
+  "schema_version": "0.1.0",
+  "invariants": [
+    {
+      "id": "I01",
+      "title": "No unauthorized mediated effect",
+      "normative_ref": "docs/SECURITY.md",
+      "experiences": [
+        "E01",
+        "E02",
+        "E03",
+        "E04",
+        "E06",
+        "E07",
+        "E08",
+        "E09"
+      ],
+      "packages": [
+        "P01",
+        "P02",
+        "P04",
+        "P05",
+        "P06",
+        "P07",
+        "P09",
+        "P10",
+        "P12",
+        "P13",
+        "P14"
+      ]
+    },
+    {
+      "id": "I02",
+      "title": "Delegation cannot amplify authority",
+      "normative_ref": "docs/SECURITY.md",
+      "experiences": [
+        "E04",
+        "E07",
+        "E09"
+      ],
+      "packages": [
+        "P02",
+        "P06",
+        "P10",
+        "P13",
+        "P14"
+      ]
+    },
+    {
+      "id": "I03",
+      "title": "Revocation has explicit dispatch semantics",
+      "normative_ref": "docs/SECURITY.md",
+      "experiences": [
+        "E02",
+        "E04",
+        "E07",
+        "E09"
+      ],
+      "packages": [
+        "P02",
+        "P04",
+        "P06",
+        "P10",
+        "P13",
+        "P14"
+      ]
+    },
+    {
+      "id": "I04",
+      "title": "Retries preserve effect identity and uncertainty",
+      "normative_ref": "docs/STATE-AND-RECOVERY.md",
+      "experiences": [
+        "E01",
+        "E02",
+        "E07",
+        "E09"
+      ],
+      "packages": [
+        "P01",
+        "P03",
+        "P04",
+        "P06",
+        "P10",
+        "P13",
+        "P14"
+      ]
+    },
+    {
+      "id": "I05",
+      "title": "Promotion binds to validated revisions",
+      "normative_ref": "docs/STATE-AND-RECOVERY.md",
+      "experiences": [
+        "E01",
+        "E10"
+      ],
+      "packages": [
+        "P03",
+        "P11",
+        "P14"
+      ]
+    },
+    {
+      "id": "I06",
+      "title": "Branch and workload boundaries protect the base",
+      "normative_ref": "docs/SECURITY.md",
+      "experiences": [
+        "E01",
+        "E04",
+        "E08",
+        "E10"
+      ],
+      "packages": [
+        "P02",
+        "P03",
+        "P11",
+        "P14"
+      ]
+    },
+    {
+      "id": "I07",
+      "title": "Durable work resumes from consistent checkpoints",
+      "normative_ref": "docs/STATE-AND-RECOVERY.md",
+      "experiences": [
+        "E02",
+        "E07",
+        "E08",
+        "E10"
+      ],
+      "packages": [
+        "P04",
+        "P05",
+        "P10",
+        "P11",
+        "P13",
+        "P14"
+      ]
+    },
+    {
+      "id": "I08",
+      "title": "Managed effects have attributable observed evidence",
+      "normative_ref": "docs/ONTOLOGY.md",
+      "experiences": [
+        "E01",
+        "E02",
+        "E05",
+        "E07",
+        "E08",
+        "E09"
+      ],
+      "packages": [
+        "P01",
+        "P03",
+        "P04",
+        "P05",
+        "P06",
+        "P08",
+        "P10",
+        "P13",
+        "P14"
+      ]
+    },
+    {
+      "id": "I09",
+      "title": "Core operations do not require inference",
+      "normative_ref": "docs/ARCHITECTURE.md",
+      "experiences": [
+        "E01",
+        "E02",
+        "E03",
+        "E05",
+        "E06",
+        "E08",
+        "E10"
+      ],
+      "packages": [
+        "P01",
+        "P03",
+        "P04",
+        "P05",
+        "P07",
+        "P08",
+        "P09",
+        "P11",
+        "P12",
+        "P14"
+      ]
+    },
+    {
+      "id": "I10",
+      "title": "Expired federated ownership cannot commit fenced work",
+      "normative_ref": "docs/STATE-AND-RECOVERY.md",
+      "experiences": [
+        "E07"
+      ],
+      "packages": [
+        "P10",
+        "P14"
+      ]
+    },
+    {
+      "id": "I11",
+      "title": "Secrets and nonconsented payloads stay out of context/capture",
+      "normative_ref": "docs/SECURITY.md",
+      "experiences": [
+        "E03",
+        "E04",
+        "E05",
+        "E06",
+        "E07",
+        "E08",
+        "E09",
+        "E10"
+      ],
+      "packages": [
+        "P02",
+        "P06",
+        "P07",
+        "P08",
+        "P09",
+        "P10",
+        "P11",
+        "P12",
+        "P13",
+        "P14"
+      ]
+    },
+    {
+      "id": "I12",
+      "title": "Enforceable reservations cannot oversubscribe limits",
+      "normative_ref": "docs/PROTOCOLS.md",
+      "experiences": [
+        "E02",
+        "E04",
+        "E07",
+        "E09"
+      ],
+      "packages": [
+        "P01",
+        "P02",
+        "P04",
+        "P06",
+        "P10",
+        "P12",
+        "P13",
+        "P14"
+      ]
+    },
+    {
+      "id": "I13",
+      "title": "Context remains authorized, attributed and freshness-scoped",
+      "normative_ref": "docs/AI-NATIVE.md",
+      "experiences": [
+        "E03",
+        "E05",
+        "E06",
+        "E07",
+        "E09"
+      ],
+      "packages": [
+        "P06",
+        "P07",
+        "P08",
+        "P09",
+        "P10",
+        "P12",
+        "P13",
+        "P14"
+      ]
+    },
+    {
+      "id": "I14",
+      "title": "Approval binds to the exact actionable change",
+      "normative_ref": "docs/PRODUCT-DESIGN.md",
+      "experiences": [
+        "E01",
+        "E03",
+        "E04",
+        "E06",
+        "E09"
+      ],
+      "packages": [
+        "P02",
+        "P03",
+        "P05",
+        "P06",
+        "P07",
+        "P09",
+        "P13",
+        "P14"
+      ]
+    },
+    {
+      "id": "I15",
+      "title": "Updates and restore respect recovery/data compatibility",
+      "normative_ref": "docs/STATE-AND-RECOVERY.md",
+      "experiences": [
+        "E10"
+      ],
+      "packages": [
+        "P11",
+        "P12",
+        "P14"
+      ]
+    },
+    {
+      "id": "I16",
+      "title": "Versioned contracts reject incompatibility",
+      "normative_ref": "docs/PROTOCOLS.md",
+      "experiences": [
+        "E03",
+        "E05",
+        "E06",
+        "E07",
+        "E08",
+        "E09",
+        "E10"
+      ],
+      "packages": [
+        "P00",
+        "P01",
+        "P06",
+        "P07",
+        "P08",
+        "P09",
+        "P10",
+        "P11",
+        "P12",
+        "P13",
+        "P14"
+      ]
+    },
+    {
+      "id": "I17",
+      "title": "Learned procedures remain bounded and consented",
+      "normative_ref": "docs/AI-NATIVE.md",
+      "experiences": [
+        "E06"
+      ],
+      "packages": [
+        "P09",
+        "P14"
+      ]
+    },
+    {
+      "id": "I18",
+      "title": "Containment profiles fail closed",
+      "normative_ref": "docs/SECURITY.md",
+      "experiences": [
+        "E03",
+        "E04",
+        "E07",
+        "E08",
+        "E09",
+        "E10"
+      ],
+      "packages": [
+        "P00",
+        "P02",
+        "P06",
+        "P07",
+        "P10",
+        "P11",
+        "P12",
+        "P13",
+        "P14"
+      ]
+    },
+    {
+      "id": "I19",
+      "title": "Export, deletion and retention preserve current policy",
+      "normative_ref": "docs/SECURITY.md",
+      "experiences": [
+        "E05",
+        "E06",
+        "E07",
+        "E08",
+        "E10"
+      ],
+      "packages": [
+        "P05",
+        "P08",
+        "P09",
+        "P10",
+        "P11",
+        "P13",
+        "P14"
+      ]
+    },
+    {
+      "id": "I20",
+      "title": "Qualification claims are scope- and evidence-bound",
+      "normative_ref": "conformance/ACCEPTANCE.md",
+      "experiences": [
+        "E01",
+        "E02",
+        "E03",
+        "E04",
+        "E05",
+        "E06",
+        "E07",
+        "E08",
+        "E09",
+        "E10"
+      ],
+      "packages": [
+        "P00",
+        "P01",
+        "P02",
+        "P03",
+        "P04",
+        "P05",
+        "P06",
+        "P07",
+        "P08",
+        "P09",
+        "P10",
+        "P11",
+        "P12",
+        "P13",
+        "P14"
+      ]
+    }
+  ],
+  "experiences": [
+    {
+      "id": "E01",
+      "title": "Branch, validate and selectively promote managed work",
+      "document": "conformance/experiences/E01.md",
+      "packages": [
+        "P03",
+        "P05",
+        "P11",
+        "P14"
+      ],
+      "invariants": [
+        "I01",
+        "I04",
+        "I05",
+        "I06",
+        "I08",
+        "I09",
+        "I14",
+        "I20"
+      ],
+      "qualification": "not_implemented"
+    },
+    {
+      "id": "E02",
+      "title": "Resume durable work after client and worker failure",
+      "document": "conformance/experiences/E02.md",
+      "packages": [
+        "P04",
+        "P05",
+        "P10",
+        "P13",
+        "P14"
+      ],
+      "invariants": [
+        "I01",
+        "I03",
+        "I04",
+        "I07",
+        "I08",
+        "I09",
+        "I12",
+        "I20"
+      ],
+      "qualification": "not_implemented"
+    },
+    {
+      "id": "E03",
+      "title": "Create and retain a useful capability-based view",
+      "document": "conformance/experiences/E03.md",
+      "packages": [
+        "P07",
+        "P09",
+        "P13",
+        "P14"
+      ],
+      "invariants": [
+        "I01",
+        "I09",
+        "I11",
+        "I13",
+        "I14",
+        "I16",
+        "I18",
+        "I20"
+      ],
+      "qualification": "not_implemented"
+    },
+    {
+      "id": "E04",
+      "title": "Delegate bounded work and revoke it during execution",
+      "document": "conformance/experiences/E04.md",
+      "packages": [
+        "P01",
+        "P02",
+        "P04",
+        "P05",
+        "P06",
+        "P10",
+        "P13",
+        "P14"
+      ],
+      "invariants": [
+        "I01",
+        "I02",
+        "I03",
+        "I06",
+        "I11",
+        "I12",
+        "I14",
+        "I18",
+        "I20"
+      ],
+      "qualification": "not_implemented"
+    },
+    {
+      "id": "E05",
+      "title": "Inspect observed lineage and correct derived memory",
+      "document": "conformance/experiences/E05.md",
+      "packages": [
+        "P01",
+        "P05",
+        "P06",
+        "P08",
+        "P10",
+        "P13",
+        "P14"
+      ],
+      "invariants": [
+        "I08",
+        "I09",
+        "I11",
+        "I13",
+        "I16",
+        "I19",
+        "I20"
+      ],
+      "qualification": "not_implemented"
+    },
+    {
+      "id": "E06",
+      "title": "Turn a demonstration into a bounded procedure",
+      "document": "conformance/experiences/E06.md",
+      "packages": [
+        "P09",
+        "P14"
+      ],
+      "invariants": [
+        "I01",
+        "I09",
+        "I11",
+        "I13",
+        "I14",
+        "I16",
+        "I17",
+        "I19",
+        "I20"
+      ],
+      "qualification": "not_implemented"
+    },
+    {
+      "id": "E07",
+      "title": "Cooperate across two nodes and survive a partition",
+      "document": "conformance/experiences/E07.md",
+      "packages": [
+        "P10",
+        "P14"
+      ],
+      "invariants": [
+        "I01",
+        "I02",
+        "I03",
+        "I04",
+        "I07",
+        "I08",
+        "I10",
+        "I11",
+        "I12",
+        "I13",
+        "I16",
+        "I18",
+        "I19",
+        "I20"
+      ],
+      "qualification": "not_implemented"
+    },
+    {
+      "id": "E08",
+      "title": "Use ordinary computing and managed work without AI",
+      "document": "conformance/experiences/E08.md",
+      "packages": [
+        "P00",
+        "P01",
+        "P02",
+        "P03",
+        "P04",
+        "P05",
+        "P08",
+        "P11",
+        "P12",
+        "P14"
+      ],
+      "invariants": [
+        "I01",
+        "I06",
+        "I07",
+        "I08",
+        "I09",
+        "I11",
+        "I16",
+        "I18",
+        "I19",
+        "I20"
+      ],
+      "qualification": "not_implemented"
+    },
+    {
+      "id": "E09",
+      "title": "Adaptive AI work with interruption and verifiable effects",
+      "document": "conformance/experiences/E09.md",
+      "packages": [
+        "P02",
+        "P06",
+        "P07",
+        "P08",
+        "P09",
+        "P12",
+        "P13",
+        "P14"
+      ],
+      "invariants": [
+        "I01",
+        "I02",
+        "I03",
+        "I04",
+        "I08",
+        "I11",
+        "I12",
+        "I13",
+        "I14",
+        "I16",
+        "I18",
+        "I20"
+      ],
+      "qualification": "not_implemented"
+    },
+    {
+      "id": "E10",
+      "title": "Install, update, back up and recover without corrupting work",
+      "document": "conformance/experiences/E10.md",
+      "packages": [
+        "P11",
+        "P12",
+        "P14"
+      ],
+      "invariants": [
+        "I05",
+        "I06",
+        "I07",
+        "I09",
+        "I11",
+        "I15",
+        "I16",
+        "I18",
+        "I19",
+        "I20"
+      ],
+      "qualification": "not_implemented"
+    }
+  ]
+}

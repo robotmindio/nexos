@@ -1,0 +1,231 @@
+{
+  "review_date": "2026-11-24",
+  "original_archive_sha256": "8b3cc33a83defa7c42f3386792f7b989ed5fb937ab96be4e86171a031fc79d0c",
+  "original_files": [
+    {
+      "path": "AGENTS.md",
+      "original_sha256": "6b00924059ff879b00d677ffeeb1d1cba2997cfb1955ab3acb66709bdcebe14a",
+      "original_bytes": 1730,
+      "outcome": "rewritten"
+    },
+    {
+      "path": "README.md",
+      "original_sha256": "18c18e7cc108b2c05f0ca649d49709a4b21dcc7fe2cbd0e27af348f381eed64b",
+      "original_bytes": 684,
+      "outcome": "rewritten"
+    },
+    {
+      "path": "conformance/ACCEPTANCE.md",
+      "original_sha256": "7c1b1f3d298ebf1248fc93aeeebb861d97aadf909edfb0837a7e1985110677a3",
+      "original_bytes": 805,
+      "outcome": "rewritten"
+    },
+    {
+      "path": "conformance/experiences/E01.md",
+      "original_sha256": "24eae04b096fcaeb1a66032edcd8f260002c4ad07328224df9063013ac26b479",
+      "original_bytes": 284,
+      "outcome": "rewritten"
+    },
+    {
+      "path": "conformance/experiences/E02.md",
+      "original_sha256": "b0fb2fe735f38edcb8c2a3e60263469172c6d911061e7a98cd80fb5299012fdd",
+      "original_bytes": 270,
+      "outcome": "rewritten"
+    },
+    {
+      "path": "conformance/experiences/E03.md",
+      "original_sha256": "4b6163ba70c444236366e650b336bede2f9d515986b749bf5e8d9f3c635334f9",
+      "original_bytes": 276,
+      "outcome": "rewritten"
+    },
+    {
+      "path": "conformance/experiences/E04.md",
+      "original_sha256": "3f48f0f6aa640c27c2f2c617353b1de66d8d7a350950d902556b03188d7014f6",
+      "original_bytes": 268,
+      "outcome": "rewritten"
+    },
+    {
+      "path": "conformance/experiences/E05.md",
+      "original_sha256": "1e0f1529ee04049194a7c90b212240c2250f658ec23605a7531fc1190ca8f38f",
+      "original_bytes": 268,
+      "outcome": "rewritten"
+    },
+    {
+      "path": "conformance/experiences/E06.md",
+      "original_sha256": "ec7e7eb17afdb0cc2fd795ae488dadbcc9993dc9c03055f6a210722345be05c5",
+      "original_bytes": 284,
+      "outcome": "rewritten"
+    },
+    {
+      "path": "conformance/experiences/E07.md",
+      "original_sha256": "f88ea720c86973a1bc42fec48591f5af52528d63e39ff4dd2d92897c9e187ca2",
+      "original_bytes": 268,
+      "outcome": "rewritten"
+    },
+    {
+      "path": "conformance/experiences/E08.md",
+      "original_sha256": "c69d9e66e509b4586b926c1742468005311106b565a9124c36867ffa1e16bca8",
+      "original_bytes": 272,
+      "outcome": "rewritten"
+    },
+    {
+      "path": "conformance/invariants/INVARIANTS.md",
+      "original_sha256": "e66fcc11ed35210650413410a8e96021948c164fd9e1aac53f0b176af9d473e7",
+      "original_bytes": 987,
+      "outcome": "rewritten"
+    },
+    {
+      "path": "docs/ARCHITECTURE.md",
+      "original_sha256": "e3227def8a11ff2981a61ea5b2c57b8f43ef7a1c30e3905226e5b891cf78ab7b",
+      "original_bytes": 2145,
+      "outcome": "rewritten"
+    },
+    {
+      "path": "docs/CONSTITUTION.md",
+      "original_sha256": "89218394d8548e2a8d03b5cc6e1e1247c70174f961c56649fa273196434f6852",
+      "original_bytes": 1241,
+      "outcome": "rewritten"
+    },
+    {
+      "path": "docs/INTEGRATION.md",
+      "original_sha256": "b0e15b83f642e319942f4f64c82ffebfe1ab9660aca062f19c2da61e634a9700",
+      "original_bytes": 1118,
+      "outcome": "rewritten"
+    },
+    {
+      "path": "docs/ONTOLOGY.md",
+      "original_sha256": "a6ba33875404b0623fcf15de78bb2c239a8ef016c19787df9a60d6d2ec0ec8c5",
+      "original_bytes": 1805,
+      "outcome": "rewritten"
+    },
+    {
+      "path": "docs/PRODUCT-DESIGN.md",
+      "original_sha256": "37f3ce92485e66fc60ebab0eb75713bc3042ef70fb5666fa521d5f85cae4a1d9",
+      "original_bytes": 1666,
+      "outcome": "rewritten"
+    },
+    {
+      "path": "docs/PROTOCOLS.md",
+      "original_sha256": "2531b08e7d1ed65b4a9c3b89f2621d28dbfe1a215f98bd0903a6bf7195ada8de",
+      "original_bytes": 1485,
+      "outcome": "rewritten"
+    },
+    {
+      "path": "docs/SECURITY.md",
+      "original_sha256": "5a97445297ee54fed1221ae8e30eaa1001a13acb917da502b1ae894f2a915ca3",
+      "original_bytes": 1518,
+      "outcome": "rewritten"
+    },
+    {
+      "path": "docs/USER-EXPERIENCE.md",
+      "original_sha256": "7a3aa18cd6392f8fe9182de7591aa472ad3cdf119a5f028de6c9c9aae60209c6",
+      "original_bytes": 1587,
+      "outcome": "rewritten"
+    },
+    {
+      "path": "docs/VISION.md",
+      "original_sha256": "cf2392ac6aa372ae6ba0682acfe1c37b75ffd25a57affd8c3254b743bf16ed25",
+      "original_bytes": 1361,
+      "outcome": "rewritten"
+    },
+    {
+      "path": "docs/decisions/0001-base.md",
+      "original_sha256": "609f8045f67a1adf4f2d5f910ec079ee7b8e10d9f7074bdc440bad0da91495ca",
+      "original_bytes": 256,
+      "outcome": "rewritten"
+    },
+    {
+      "path": "docs/decisions/0002-vertical-slices.md",
+      "original_sha256": "116a9a88dbf44bc28b1de8b46c6c29c26777b4410fd1a2ac47e4d06ee8175c9e",
+      "original_bytes": 208,
+      "outcome": "rewritten"
+    },
+    {
+      "path": "program/PROGRAM.md",
+      "original_sha256": "0927f976ca4901d11c2217db0d55b3f3e03b7017a5f8cada268b16838d08d4fe",
+      "original_bytes": 983,
+      "outcome": "rewritten"
+    },
+    {
+      "path": "program/STATE.yaml",
+      "original_sha256": "2bfe0829958a081e731dbe47c6541c19f94c456181546a44f11b126efd6536f8",
+      "original_bytes": 1081,
+      "outcome": "removed_redundant_record",
+      "replacement": "program/state.json"
+    },
+    {
+      "path": "program/dependencies.json",
+      "original_sha256": "2313fab951f0479e091ab886755fc43d906eb01563f6f4469cad87988008d4e4",
+      "original_bytes": 375,
+      "outcome": "removed_redundant_record",
+      "replacement": "program/plan.json"
+    },
+    {
+      "path": "program/work-packages/P00.md",
+      "original_sha256": "acaff2fb384dd028f55d6f58ee1458cce0054f3f2fa2cd9fd289fc92341f2b21",
+      "original_bytes": 565,
+      "outcome": "rewritten"
+    },
+    {
+      "path": "program/work-packages/P01.md",
+      "original_sha256": "e0340f1442f598102f6a06f48db1217aa000e8c09235e63982e0dc8d206c1b5d",
+      "original_bytes": 557,
+      "outcome": "rewritten"
+    },
+    {
+      "path": "program/work-packages/P02.md",
+      "original_sha256": "d8e44caca98e9fab0414ba67f21dc092e4c0b0a8308d8e3f5ed81c63c7a5a393",
+      "original_bytes": 561,
+      "outcome": "rewritten"
+    },
+    {
+      "path": "program/work-packages/P03.md",
+      "original_sha256": "ea6a40c03cd3ab8267f047e37c5bbb1db7b647ea85cdf4a65145e396446207d3",
+      "original_bytes": 547,
+      "outcome": "rewritten"
+    },
+    {
+      "path": "program/work-packages/P04.md",
+      "original_sha256": "45e71b0567ddb4ff58ea4e5f68fb2d95025f96cbdbdc7b7186041592fa64800d",
+      "original_bytes": 527,
+      "outcome": "rewritten"
+    },
+    {
+      "path": "program/work-packages/P05.md",
+      "original_sha256": "5109c0fda6dd486d2bf9f0a423172fd747c1a602709e81056bccbc8b45d7fe50",
+      "original_bytes": 542,
+      "outcome": "rewritten"
+    },
+    {
+      "path": "program/work-packages/P06.md",
+      "original_sha256": "d06ed50282f68d2b540c318a61f96fda27dcb402d0a9f1ba22b589ef01854354",
+      "original_bytes": 542,
+      "outcome": "rewritten"
+    },
+    {
+      "path": "program/work-packages/P07.md",
+      "original_sha256": "afd5e9ec7f5722e0e1db526d32b09709d6106ab6c39dd3bb691a9d813ca72bde",
+      "original_bytes": 539,
+      "outcome": "rewritten"
+    },
+    {
+      "path": "program/work-packages/P08.md",
+      "original_sha256": "cfbc0286f260a83f5f916838424f4ce3967dad74a85c14f7b9f5cf0125f81441",
+      "original_bytes": 541,
+      "outcome": "rewritten"
+    },
+    {
+      "path": "program/work-packages/P09.md",
+      "original_sha256": "4bcab15b9d451ab71ab4a8e20571dc4c996633523d9469e22766fcf4a701bf35",
+      "original_bytes": 523,
+      "outcome": "rewritten"
+    },
+    {
+      "path": "program/work-packages/P10.md",
+      "original_sha256": "c50c9abb592edcab2ded1f8b4178c4e2be5377a02a30f71a0e2a0b1abe5de1de",
+      "original_bytes": 598,
+      "outcome": "rewritten"
+    }
+  ],
+  "scope": "All original files read; targeted primary-source checks and pinned RobotMind integration reconnaissance; specification changes only."
+}
