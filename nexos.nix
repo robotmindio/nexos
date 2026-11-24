@@ -1,14 +1,12 @@
-{ config, modulesPath, ... }:
+{ config, lib, pkgs, ... }:
 
 {
-  imports = [ "${modulesPath}/installer/cd-dvd/installation-cd-minimal.nix" ];
+  networking.hostName = lib.mkDefault "nexos";
 
-  networking.hostName = "nexos";
-
-  boot.kernelParams = [
-    "console=tty0"
-    "console=ttyS0,115200n8"
+  environment.systemPackages = [
+    pkgs.git
   ];
+
   boot.zfs.forceImportRoot = false;
 
   environment.etc."nexos-release".text = ''

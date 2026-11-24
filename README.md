@@ -8,7 +8,7 @@ The reference direction is upstream Linux with a portable user-space runtime. Ni
 
 ## What is in this repository
 
-This repository contains the engineering specification, execution program and a minimal NixOS live image for VM development. The specification validator checks schemas, examples, dependencies, requirement coverage, evidence records and documentation references. The NexOS runtime is still pending.
+This repository contains the engineering specification, execution program and two NixOS live editions for VM development. The specification validator checks schemas, examples, dependencies, requirement coverage, evidence records and documentation references. The NexOS runtime is still pending.
 
 | Area | Start here |
 | --- | --- |
@@ -31,24 +31,36 @@ Create a managed workspace, run a real typed operation under bounded authority, 
 
 This delivers a concrete product while preserving the wider vision. Generated views, demonstration learning, reference-image lifecycle, federation and accelerated hardware extend independently qualified profiles. They are not all prerequisites for a local-runtime release.
 
-## Build and boot the live ISO
+## Build and boot the live ISOs
 
-On an `x86_64` Linux host with Nix installed, edit [nexos.nix](nexos.nix) and run the build script. [flake.lock](flake.lock) pins the exact Nixpkgs revision.
+On an `x86_64` Linux host with Nix installed, run the build script for the edition you want. [nexos.nix](nexos.nix) defines the shared settings and package list, starting with Git. The Plasma edition adds KDE Plasma 6 and its KWin Wayland compositor through the [Plasma module](profiles/plasma.nix). Both editions use the Nixpkgs revision in [flake.lock](flake.lock).
 
 ```bash
-./build-iso.sh
-sha256sum result/iso/*.iso
+./build-iso.sh console    # result/iso/
+./build-iso.sh plasma     # result-plasma/iso/
 ```
 
-Boot the resulting ISO in a VM with QEMU and access to `/dev/kvm`.
+Running `./build-iso.sh` without arguments builds the console edition. Boot either image in a VM with QEMU and access to `/dev/kvm`.
 
 ```bash
 qemu-system-x86_64 -enable-kvm -smp 2 -m 2048 -nic none -cdrom result/iso/*.iso -nographic
+qemu-system-x86_64 -enable-kvm -smp 2 -m 4096 -nic none -vga virtio -cdrom result-plasma/iso/*.iso
 ```
 
-Run `hostname` and `cat /etc/nexos-release` at the guest console to verify the configured hostname. The default is `nexos`. To leave QEMU, press `Ctrl+A` followed by `X`.
+Run `git --version` in the console or in Konsole on the Plasma desktop. To leave QEMU in console mode, press `Ctrl+A` followed by `X`.
 
-The [ISO smoke test](evidence/iso-smoke.md) records both builds, their SHA-256 digests and the values observed in the guests.
+## Install an edition to disk
+
+Boot the desired edition and use the [NixOS manual installation steps](https://nixos.org/manual/nixos/stable/#sec-installation-manual) to prepare and mount the target filesystem at `/mnt`. Once the target filesystems are mounted, generate the host configuration and copy the edition modules from the live system.
+
+```bash
+sudo nixos-generate-config --root /mnt
+sudo install -m 0644 /etc/nexos/install/*.nix /mnt/etc/nixos/
+```
+
+Add `./edition.nix` to the `imports` list in `/mnt/etc/nixos/configuration.nix` alongside `./hardware-configuration.nix`. Finish configuring the bootloader and user accounts for your machine, then run `sudo nixos-install`. `edition.nix` imports the shared package list in both editions and also imports the Plasma module when installing from the Plasma ISO.
+
+The [initial ISO smoke test](evidence/iso-smoke.md) records the original single-edition build and hostname check.
 
 ## Verify this package
 
