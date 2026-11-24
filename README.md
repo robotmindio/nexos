@@ -58,9 +58,15 @@ sudo nixos-generate-config --root /mnt
 sudo install -m 0644 /etc/nexos/install/*.nix /mnt/etc/nixos/
 ```
 
-Add `./edition.nix` to the `imports` list in `/mnt/etc/nixos/configuration.nix` alongside `./hardware-configuration.nix`. Finish configuring the bootloader and user accounts for your machine, then run `sudo nixos-install`. `edition.nix` imports the shared package list in both editions and also imports the Plasma module when installing from the Plasma ISO.
+Add `./edition.nix` to the `imports` list in `/mnt/etc/nixos/configuration.nix` alongside `./hardware-configuration.nix`. Finish configuring the bootloader and user accounts for your machine, then run the installer with the Nixpkgs source bundled in the ISO.
 
-The [initial ISO smoke test](evidence/iso-smoke.md) records the original single-edition build and hostname check.
+```bash
+sudo nixos-install -I nixpkgs=/nix/var/nix/profiles/per-user/root/channels/nixos
+```
+
+`edition.nix` imports the shared package list in both editions and also imports the Plasma module when installing from the Plasma ISO.
+
+The [ISO build and boot tests](evidence/iso-smoke.md) record the results and SHA-256 digests for both editions.
 
 ## Verify this package
 

@@ -2,7 +2,7 @@
   "schema_version": "0.1.0",
   "validation_kind": "specification",
   "qualifies_runtime": false,
-  "recorded_at": "2026-11-24T16:23:13.866184Z",
+  "recorded_at": "2026-11-24T16:51:34.397634Z",
   "result": "passed",
   "checks": [
     {
@@ -24,7 +24,7 @@
     },
     {
       "name": "local_markdown_links",
-      "count": 200
+      "count": 201
     }
   ],
   "problems": [],
@@ -44,7 +44,7 @@
     },
     {
       "path": "README.md",
-      "sha256": "d70c735b8c6c9b3bdd2639226d76b7c517655aef2eb3958739ada2147a396201"
+      "sha256": "c30239eab2f72bc4280e0fa21678935316c25c164d4684621bdc3146d487d198"
     },
     {
       "path": "audits/REVIEW-2026-11-24.es.md",
