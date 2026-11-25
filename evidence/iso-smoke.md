@@ -1,5 +1,13 @@
 # Live ISO smoke test
 
+## Klassy and Opal Fruits
+
+Built the Plasma ISO from the Nix configuration at commit `4baaee6bb8b8470693c925d65ff2170a4e26f9a4` on 2026-11-25 with Klassy `6.5.3`. The ISO SHA-256 is `e5c518358d78516bf554826182ab7b811d4e1b95f4eaa4dcad1f699367f34ddb`.
+
+A fresh live session under QEMU/KVM selected Klassy Kite Light with the bottom panel. KWin read `org.kde.klassy`, the Opal Fruits button placement `MFS` and `HAI_X`, `StyleSuessigKite` and a corner radius of `5`. The session used the regenerated Klassy icons. KWin mapped `org.kde.klassy.so` and a Konsole window mapped `klassy6.so` during the test. The installation copy of `plasma.nix` matched the tested source byte for byte.
+
+The first boot with only system-wide window defaults selected Breeze because Plasma initialized the session from its global theme. Selecting Klassy as the global theme resolved that priority conflict. The guest shut down at the end of the successful test.
+
 ## Console and Plasma editions
 
 Built on 2026-11-25 from the Nix configuration at commit `c5ddf1cac31c4ee09affe82edee6db9aa1c16dff`. Both builds used Nixpkgs `0dc498bfe49baeb18b0f9891e800b53bb2603193`. The console build ran from a clean clone, and the Plasma derivation matched the derivation evaluated from that clone.
