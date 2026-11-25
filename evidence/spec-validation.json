@@ -2,7 +2,7 @@
   "schema_version": "0.1.0",
   "validation_kind": "specification",
   "qualifies_runtime": false,
-  "recorded_at": "2026-11-24T16:51:34.397634Z",
+  "recorded_at": "2026-11-25T02:55:28.600467Z",
   "result": "passed",
   "checks": [
     {
@@ -44,7 +44,7 @@
     },
     {
       "path": "README.md",
-      "sha256": "c30239eab2f72bc4280e0fa21678935316c25c164d4684621bdc3146d487d198"
+      "sha256": "18d1f6d4e360e929ac1e52aa84af7f5e21499ca9b9392afc4cd3f1bf489cb337"
     },
     {
       "path": "audits/REVIEW-2026-11-24.es.md",

@@ -35,6 +35,8 @@ This delivers a concrete product while preserving the wider vision. Generated vi
 
 On an `x86_64` Linux host with Nix installed, run the build script for the edition you want. [nexos.nix](nexos.nix) defines the shared settings and package list, starting with Git. The Plasma edition adds KDE Plasma 6 and its KWin Wayland compositor through the [Plasma module](profiles/plasma.nix). Both editions use the Nixpkgs revision in [flake.lock](flake.lock).
 
+The Plasma edition defaults to the [Klassy](https://github.com/paulmcauley/klassy) Kite Light theme with a bottom panel and the bundled **Opal Fruits** preset for KWin window decorations. These defaults apply to the live desktop and disk installations. Users can change their own look in System Settings.
+
 ```bash
 ./build-iso.sh console    # result/iso/
 ./build-iso.sh plasma     # result-plasma/iso/
